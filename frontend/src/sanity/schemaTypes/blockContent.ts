@@ -69,6 +69,25 @@ export const blockContentType = defineType({
           type: "string",
           title: "Alternative Text",
         },
+        {
+          name: "caption",
+          type: "string",
+          title: "Image Caption",
+
+          validation: (Rule) => Rule.optional(),
+        },
+        {
+          name: "attribution",
+          type: "string",
+          title: "Image Attribution",
+
+          validation: (Rule) => Rule.optional(),
+        },
+        {
+          name: "attributionLink",
+          type: "url",
+          title: "Attribution Link (URL to Source)",
+        },
       ],
     }),
   ],

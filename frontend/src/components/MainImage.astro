@@ -1,0 +1,16 @@
+---
+// ./src/components/MainImage.astro
+import { urlForImage } from "../sanity/lib/url-for-image"; 
+
+const { mainImage, alt } = Astro.props; // receive mainImage and alt as props
+const { class: className, ...rest } = Astro.props;
+
+const imageUrl = urlForImage(mainImage).url();
+const webpUrl = urlForImage(mainImage).format("webp").url();
+---
+
+<picture>
+  <source srcset={webpUrl} type="image/webp" />
+  <img class={className} {...rest} src={imageUrl} alt={alt} />
+</picture>
+

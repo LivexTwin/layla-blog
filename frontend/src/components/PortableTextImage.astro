@@ -2,13 +2,31 @@
 // ./src/components/PortableTextImage.astro
 import { urlForImage } from "../sanity/lib/url-for-image";
 
-const { asset, alt } = Astro.props.node;
+// const { asset, alt } = Astro.props.node;
+const { asset, alt, caption, attribution, attributionLink  } = Astro.props.node;
 
 const url = urlForImage(asset).url();
 const webpUrl = urlForImage(asset).format("webp").url();
 ---
 
-<picture>
+<!-- <picture>
   <source srcset={webpUrl} type="image/webp" />
   <img class="responsive__img" src={url} alt={alt} />
-</picture>
+</picture> -->
+
+<figure>
+  <picture>
+    <source srcset={webpUrl} type="image/webp" />
+    <img class="responsive__img" src={url} alt={alt} />
+  </picture>
+
+  {/* Display the caption if it exists */}
+  {caption && <figcaption>{caption}</figcaption>}
+
+  {/* Display the attribution with a hyperlink if it exists */}
+  {attribution && attributionLink && (
+    <figcaption class="attribution">
+      Photo by <a href={attributionLink} target="_blank" rel="noopener noreferrer">{attribution}</a>
+    </figcaption>
+  )}
+</figure>

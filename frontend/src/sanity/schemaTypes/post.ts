@@ -1,9 +1,11 @@
 // ./src/sanity/schemaTypes/post.ts
 import { defineField, defineType } from "sanity";
+import { BookIcon } from "@sanity/icons";
 
 export const postType = defineType({
   name: "post",
   type: "document",
+  icon: BookIcon,
   fields: [
     defineField({
       name: "title",
@@ -40,6 +42,12 @@ export const postType = defineType({
       name: "categories",
       type: "array",
       of: [{ type: "reference", to: { type: "category" } }],
+    }),
+    defineField({
+      name: "tags",
+      type: "array",
+      title: "Tags",
+      of: [{ type: "reference", to: { type: "tag" } }],
     }),
     defineField({
       name: "publishedAt",

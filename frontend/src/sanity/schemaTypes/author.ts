@@ -1,9 +1,11 @@
 // ./src/sanity/schemaTypes/author.ts
 import { defineField, defineType } from "sanity";
+import { UserIcon } from "@sanity/icons";
 
 export const authorType = defineType({
   name: "author",
   type: "document",
+  icon: UserIcon,
   fields: [
     defineField({
       name: "name",

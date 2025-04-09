@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { loadQuery } from "../../sanity/lib/load-query";
+import { tagsQuery } from "../../sanity/lib/queries";
+
+const { data: tags } = await loadQuery({
+  query: tagsQuery,
+});
+---
+
+<Layout>
+  <h1>All Tags</h1>
+  <ul>
+    {tags.map((tag) => (
+      <li key={tag._id}>
+        <a href={`/tags/${tag.slug.current}`}>{tag.title}</a>
+      </li>
+    ))}
+  </ul>
+</Layout>
+
