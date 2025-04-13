@@ -1,0 +1,20 @@
+---
+// .src/pages/blog/index.astro
+import BlogLayout from '../../components/BlogLayout.astro';
+
+import { getBlogIndexData } from '../../utils/getBlogIndexData';
+
+// fetch all posts, all categories
+// and pass them to the BlogLayout component
+const { posts, categories } = await getBlogIndexData({});
+
+---
+
+<BlogLayout posts={posts} categories={categories} categorySlug />
+
+
+
+
+
+
+

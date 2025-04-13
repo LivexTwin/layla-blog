@@ -35,6 +35,9 @@ export const postType = defineType({
           name: "alt",
           type: "string",
           title: "Alternative Text",
+          description: "Important for SEO and accessibility.",
+          validation: (Rule) =>
+            Rule.error("You have to fill out the alternative text").required(),
         },
       ],
     }),
@@ -44,11 +47,13 @@ export const postType = defineType({
       of: [{ type: "reference", to: { type: "category" } }],
     }),
     defineField({
-      name: "tags",
-      type: "array",
-      title: "Tags",
-      of: [{ type: "reference", to: { type: "tag" } }],
+      name: "tag",
+      title: "Tag",
+      type: "reference",
+      to: [{ type: "tag" }],
+      description: "Pick one tag to better describe this post (optional).",
     }),
+
     defineField({
       name: "publishedAt",
       type: "datetime",

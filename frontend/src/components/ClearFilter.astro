@@ -1,0 +1,9 @@
+---
+export interface Props {
+  label?: string;
+}
+const { label = "Clear filter" } = Astro.props;
+---
+
+<a href="/blog">{label}</a>
+<!-- <a href="/blog">Clear filter</a> -->

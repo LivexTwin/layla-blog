@@ -1,0 +1,32 @@
+---
+//./src/components/CategoryFilterList.astro
+const { categories, categorySlug } = Astro.props;
+---
+
+<nav aria-label="Blog categories">
+  <ul class="category-filter-list">
+    {categories.map((category) => {
+      const isActive = categorySlug === category.slug;
+      const href = isActive ? '/blog' : `/blog/category/${category.slug}`;
+  
+      return (
+        <li>
+          <a
+            href={href}
+            class={isActive ? 'active' : ''}
+            aria-current={isActive ? 'true' : 'false'}
+          >
+            {category.title}
+          </a>
+        </li>
+      );
+    })}
+  </ul> 
+</nav>
+
+<style>
+  .active {
+    font-weight: bold;
+    background-color: #00dff3; /* Example active color */
+  }
+</style>

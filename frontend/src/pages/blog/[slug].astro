@@ -1,71 +1,23 @@
 ---
 // ./src/pages/blog/[slug].astro
-import type { SanityDocument } from "@sanity/client";
-import { loadQuery } from "../../sanity/lib/load-query";
-import Layout from "../../layouts/Layout.astro";
-import PortableText from "../../components/PortableText.astro";
-import MainImage from "../../components/MainImage.astro";
-import { postQuery } from "../../sanity/lib/queries";
-
-
+import Layout from '../../layouts/Layout.astro';
+import PostDetail from '../../components/PostDetail.astro';
+  import { getPostBySlug, getAllPosts } from '../../utils/sanityQueries'; // Import the new helper function
 
 export async function getStaticPaths() {
-  const { data: posts } = await loadQuery<SanityDocument[]>({
-    query: `*[_type == "post"]`,
-  });
-
-  return posts.map(({ slug }) => {
-    return {
-      params: {
-        slug: slug.current,
-      },
-    };
-  });
+  const posts = await getAllPosts();  // Use the function from sanityQueries.ts to fetch all posts
+  return posts.map((post) => ({
+    params: { slug: post.slug.current },
+  }));
 }
 
-const { params } = Astro;
-
-const { data: post } = await loadQuery<{ title: string; body: any[]; mainImage: any; tags: {
-_id: any; title: string; slug: { current: string } 
-}[] }>({
-  query: postQuery,
-  params,
-});
+const { slug } = Astro.params;
+const post = await getPostBySlug(slug); // Use the new helper function to fetch the post by slug
+if (!post) throw new Error("Post not found");
 ---
 
 <Layout>
-  <h1>A post about {post.title}</h1>
-  {post.mainImage && (
-    <MainImage 
-      mainImage={post.mainImage} 
-      alt={post.title} 
-      class="main__img" 
-    />
-  )}
-  <PortableText portableText={post.body} />
-    <div>
-
-      <ul>
-      
-        {post.tags && post.tags.length > 0 && post.tags.map((tag) => (
-          <li key={tag._id}>
-       
-            <a href={`/tags/${tag.slug?.current}`} >
-              {tag.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+  <PostDetail post={post} />
 </Layout>
 
-<style>
 
-  .main__img {
-    width: 100%;
-    margin-inline: auto;
-    max-width: 800px;
-
- 
-  }
-</style>

@@ -68,19 +68,19 @@ export const blockContentType = defineType({
           name: "alt",
           type: "string",
           title: "Alternative Text",
+          description: "Important for SEO and accessibility.",
         },
         {
           name: "caption",
           type: "string",
           title: "Image Caption",
-
+          description: "Caption displayed below the image.",
           validation: (Rule) => Rule.optional(),
         },
         {
           name: "attribution",
           type: "string",
           title: "Image Attribution",
-
           validation: (Rule) => Rule.optional(),
         },
         {

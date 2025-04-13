@@ -1,0 +1,12 @@
+---
+// ./src/components/PostCard.astro
+const { post } = Astro.props; // Get the post object passed as a prop
+---
+
+
+<article>
+  <h2><a href={`/blog/${post.slug.current}`}>{post.title}</a></h2>
+  <p>{post.publishedAt}</p>
+
+  <!-- More post content can go here -->
+</article>

@@ -1,0 +1,21 @@
+---
+// src/components/RecentPosts.astro
+import { loadQuery } from '../sanity/lib/load-query';
+import { postsQuery } from '../sanity/lib/queries';
+import PostCard from './PostCard.astro';
+
+const { data: posts } = await loadQuery({
+  query: postsQuery,
+});
+
+const recent = posts.slice(0, 3); // limit to 3 posts
+---
+
+<section>
+  <h2>Recent Posts</h2>
+  <ul>
+    {recent.map(post => (
+      <li><PostCard post={post} /></li>
+    ))}
+  </ul>
+</section>

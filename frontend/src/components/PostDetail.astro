@@ -1,0 +1,30 @@
+---
+// components/PostDetail.astro
+import PortableText from "./PortableText.astro";
+import MainImage from "./MainImage.astro";
+
+const { post } = Astro.props;
+---
+
+<article class="post-detail">
+  <h1>{post.title}</h1>
+
+  {post.mainImage && (
+    <MainImage 
+      mainImage={post.mainImage} 
+      alt={post.mainImage.alt || post.title} 
+      class="main__img" 
+    />
+  )}
+
+  <PortableText portableText={post.body} />
+</article>
+
+<style>
+  .post-detail .main__img {
+    width: 100%;
+    margin-inline: auto;
+    max-width: 800px;
+    border-radius: 1rem;
+  }
+</style>
