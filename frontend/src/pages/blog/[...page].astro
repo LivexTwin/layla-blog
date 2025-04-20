@@ -1,0 +1,25 @@
+---
+// .src/pages/blog/[...page].astro
+import BlogLayout from "../../components/BlogLayout.astro";
+import Pagination from "../../components/Pagination.astro";
+
+import { getBlogIndexData } from "../../utils/getBlogIndexData";
+
+export async function getStaticPaths({ paginate }) {
+  const { posts } = await getBlogIndexData({});
+
+  return paginate(posts, {
+    pageSize: 2,
+  });
+}
+
+const { page } = Astro.props;
+console.log(page);
+
+// fetch all posts, all categories
+// and pass them to the BlogLayout component
+const { categories } = await getBlogIndexData({});
+---
+
+<BlogLayout posts={page.data} categories={categories} categorySlug />
+<Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />

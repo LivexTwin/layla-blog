@@ -1,11 +1,12 @@
 ---
 // ./src/pages/blog/[slug].astro
-import Layout from '../../layouts/Layout.astro';
-import PostDetail from '../../components/PostDetail.astro';
-  import { getPostBySlug, getAllPosts } from '../../utils/sanityQueries'; // Import the new helper function
+import Layout from "../../layouts/Layout.astro";
+// import PostDetail from '../../components/PostDetail.astro';
+import PostDetail from "../../components/PostDetail.astro";
+import { getPostBySlug, getAllPosts } from "../../utils/sanityQueries"; // Import the new helper function
 
 export async function getStaticPaths() {
-  const posts = await getAllPosts();  // Use the function from sanityQueries.ts to fetch all posts
+  const posts = await getAllPosts(); // Use the function from sanityQueries.ts to fetch all posts
   return posts.map((post) => ({
     params: { slug: post.slug.current },
   }));
@@ -19,5 +20,3 @@ if (!post) throw new Error("Post not found");
 <Layout>
   <PostDetail post={post} />
 </Layout>
-
-

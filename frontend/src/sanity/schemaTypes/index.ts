@@ -5,6 +5,7 @@ import { blockContentType } from "./blockContent";
 import { categoryType } from "./category";
 import { postType } from "./post";
 import { tagType } from "./tag";
+import { figureType } from "./figure";
 
 import siteSettings from "./siteSettings";
 import colors from "./colors";
@@ -21,5 +22,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     siteSettings,
     colors,
     navigation,
+    figureType,
   ],
 };

@@ -57,38 +57,33 @@ export const blockContentType = defineType({
         ],
       },
     }),
-    // You can add additional types here. Note that you can't use
-    // primitive types such as 'string' and 'number' in the same array
-    // as a block type.
+
     defineArrayMember({
       type: "image",
+      name: "image",
+      title: "Image / photo",
       options: { hotspot: true },
       fields: [
         {
           name: "alt",
           type: "string",
           title: "Alternative Text",
-          description: "Important for SEO and accessibility.",
+          description:
+            "Help make the site more accessible & SEO-friendly with a short textual description of the image, e.g. 'A photo of a cat in a hat'.",
+          validation: (Rule) => Rule.required(),
         },
         {
           name: "caption",
           type: "string",
-          title: "Image Caption",
-          description: "Caption displayed below the image.",
+          title: "Caption (Optional)",
+          description:
+            "Only use for short in-line notes. For full captions and attribution, use 'Figure Image'.",
           validation: (Rule) => Rule.optional(),
-        },
-        {
-          name: "attribution",
-          type: "string",
-          title: "Image Attribution",
-          validation: (Rule) => Rule.optional(),
-        },
-        {
-          name: "attributionLink",
-          type: "url",
-          title: "Attribution Link (URL to Source)",
         },
       ],
+    }),
+    defineArrayMember({
+      type: "figure", // this is the key part!
     }),
   ],
 });

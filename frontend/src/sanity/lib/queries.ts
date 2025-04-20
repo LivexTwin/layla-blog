@@ -7,24 +7,55 @@ const postPreviewFields = `
   slug,
   publishedAt,
   mainImage {
-    asset->{
-      _id,
-      url
-    },
+    asset,
     alt
   },
-  categories[]->{
+  category->{
     title,
     slug
   }
 `;
 
 // one post (for PostDetail)
+// export const postQuery = `
+//   *[_type == "post" && slug.current == $slug][0] {
+//     ${postPreviewFields},
+//     body
+//   }
+// `;
+
+// one post (for PostDetail) with image and figure
 export const postQuery = `
-  *[_type == "post" && slug.current == $slug][0] {
-    ${postPreviewFields},
-    body
+*[_type == "post" && slug.current == $slug][0] {
+  ${postPreviewFields},
+  tags[]->{
+    _id,
+    title,
+    slug
+  },
+
+
+  body[] {
+    ...,
+    _type == "figure" => {
+      _type,
+      _key,
+      "src": image.asset->url,
+      "lqip": image.asset->metadata.lqip, 
+      "alt": coalesce(alt, caption), // 🟢 fallback logic
+      caption,
+      attribution,
+      attributionLink
+    },
+    markDefs[] {
+      ...,
+      _type == "internalLink" => {
+        'type': @->_type,
+        'slug': @->slug.current,
+      }
+    }
   }
+}
 `;
 
 // all posts (for Blog index)
@@ -38,7 +69,7 @@ export const postsQuery = `
 export const postsByCategoryQuery = `
   *[
     _type == "post" &&
-    $categorySlug in categories[]->slug.current
+    category->slug.current == $categorySlug
   ] | order(publishedAt desc) {
     ${postPreviewFields}
   }

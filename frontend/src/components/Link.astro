@@ -1,0 +1,10 @@
+---
+// /components/Link.astro
+interface Props {
+  text: string;
+  href: string;
+}
+const { text, href } = Astro.props as Props;
+---
+
+<a href={href} class="">{text}</a>

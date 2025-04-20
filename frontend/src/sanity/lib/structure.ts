@@ -21,7 +21,7 @@ export const myStructure = (S) =>
                       S.documentList()
                         .title("Posts")
                         .filter(
-                          '_type == "post" && $categoryId in categories[]._ref'
+                          '_type == "post" && category._ref == $categoryId'
                         )
                         .params({ categoryId })
                     )

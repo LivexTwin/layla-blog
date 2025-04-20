@@ -29,6 +29,7 @@ export const postType = defineType({
       type: "image",
       options: {
         hotspot: true,
+        metadata: ["lqip"],
       },
       fields: [
         {
@@ -42,18 +43,22 @@ export const postType = defineType({
       ],
     }),
     defineField({
-      name: "categories",
-      type: "array",
-      of: [{ type: "reference", to: { type: "category" } }],
-    }),
-    defineField({
-      name: "tag",
-      title: "Tag",
+      name: "category",
+      title: "Category",
       type: "reference",
-      to: [{ type: "tag" }],
-      description: "Pick one tag to better describe this post (optional).",
+      to: [{ type: "category" }], // <-- wrap it in an array
+      description:
+        "Pick the primary category this post belongs to. This helps users find related content more easily.",
     }),
 
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "tag" }] }],
+      description: "Add up to 3 tags to describe this post (optional).",
+      validation: (Rule) => Rule.max(3),
+    }),
     defineField({
       name: "publishedAt",
       type: "datetime",

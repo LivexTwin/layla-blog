@@ -5,28 +5,38 @@ const { categories, categorySlug } = Astro.props;
 
 <nav aria-label="Blog categories">
   <ul class="category-filter-list">
-    {categories.map((category) => {
-      const isActive = categorySlug === category.slug;
-      const href = isActive ? '/blog' : `/blog/category/${category.slug}`;
-  
-      return (
-        <li>
-          <a
-            href={href}
-            class={isActive ? 'active' : ''}
-            aria-current={isActive ? 'true' : 'false'}
-          >
-            {category.title}
-          </a>
-        </li>
-      );
-    })}
-  </ul> 
+    {
+      categories.map((category) => {
+        const isActive = categorySlug === category.slug;
+        const href = isActive ? "/blog" : `/blog/category/${category.slug}`;
+
+        return (
+          <li>
+            <a
+              href={href}
+              class={isActive ? "active" : ""}
+              aria-current={isActive ? "true" : "false"}
+            >
+              {category.title}
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
 </nav>
 
 <style>
   .active {
     font-weight: bold;
-    background-color: #00dff3; /* Example active color */
+    color: black;
+    border: 2px solid hsl(208, 48%, 6%);
+    box-shadow: 3px 3px #081017;
+    width: 10px;
+    border-radius: 4px;
+    padding-block: 0.5rem;
+    text-decoration: none;
+    padding-inline: 1rem;
+    background-color: rgb(248, 243, 243); /* Example active color */
   }
 </style>

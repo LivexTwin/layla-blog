@@ -30,4 +30,7 @@ export async function getCategorySlugs() {
       }
     `);
 }
+
+// pagination
+
 // export {};

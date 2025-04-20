@@ -1,0 +1,16 @@
+---
+// components/TagList.astro
+const { tags } = Astro.props;
+---
+
+{
+  tags && tags.length > 0 && (
+    <ul class="tag-list">
+      {tags.map((tag) => (
+        <li class="tag" key={tag._id}>
+          {tag.title}
+        </li>
+      ))}
+    </ul>
+  )
+}

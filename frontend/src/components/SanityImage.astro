@@ -1,0 +1,33 @@
+---
+import getImageProps from "../sanity/lib/get-image-props";
+
+const { image, maxWidth = 600, loading = "lazy" } = Astro.props;
+
+if (!image || !image.asset) {
+  console.warn("SanityImage: No image data passed:", image);
+}
+const { src, srcset, sizes, width, height } = getImageProps({
+  image,
+  maxWidth,
+});
+
+const fetchpriority = loading === "eager" ? "high" : undefined;
+---
+
+<img
+  style="height: auto"
+  loading={loading}
+  fetchpriority={fetchpriority}
+  alt={image.alt || ""}
+  src={src}
+  srcset={srcset}
+  sizes={sizes}
+  width={width}
+  height={height}
+/>
+
+<!-- TODO -->
+<!-- add lqip lazy loading to main images only  -->
+<!-- <img src={image.lqip} alt={image.alt || ""} /> -->
+<!-- <img src={image.asset.url} alt={image.alt || ""} /> -->
+<!-- use a lazyImage component maybe react  if need be that uses SanityImage under the ho -->

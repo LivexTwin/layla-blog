@@ -1,30 +1,21 @@
 ---
-// components/PostDetail.astro
+// components/PostDetailNew.astro
+import SanityImage from "./SanityImage.astro";
 import PortableText from "./PortableText.astro";
-import MainImage from "./MainImage.astro";
+import TagList from "./TagList.astro";
 
 const { post } = Astro.props;
 ---
 
-<article class="post-detail">
+<article>
+  {
+    post.mainImage && (
+      <SanityImage image={post.mainImage} maxWidth={1000} loading="eager" />
+    )
+  }
+
   <h1>{post.title}</h1>
 
-  {post.mainImage && (
-    <MainImage 
-      mainImage={post.mainImage} 
-      alt={post.mainImage.alt || post.title} 
-      class="main__img" 
-    />
-  )}
-
+  <TagList tags={post.tags} />
   <PortableText portableText={post.body} />
 </article>
-
-<style>
-  .post-detail .main__img {
-    width: 100%;
-    margin-inline: auto;
-    max-width: 800px;
-    border-radius: 1rem;
-  }
-</style>

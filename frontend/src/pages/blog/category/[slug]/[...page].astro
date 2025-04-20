@@ -1,0 +1,38 @@
+---
+import BlogLayout from "../../../../components/BlogLayout.astro";
+import Pagination from "../../../../components/Pagination.astro";
+import ClearFilter from "../../../../components/ClearFilter.astro";
+
+import { getBlogIndexData } from "../../../../utils/getBlogIndexData";
+import { getCategorySlugs } from "../../../../utils/sanityQueries";
+
+// 1. Create static paths for each category with pagination
+export async function getStaticPaths({ paginate }) {
+  const slugs = await getCategorySlugs(); // [{ slug: 'dogs' }, { slug: 'cats' }, ...]
+
+  const paths = [];
+
+  for (const { slug } of slugs) {
+    const { posts } = await getBlogIndexData({ slug });
+    const paginated = paginate(posts, {
+      pageSize: 1, // 👈 change if you want more per page
+      params: { slug }, // 👈 pass slug into params
+    });
+
+    paths.push(...paginated);
+  }
+
+  return paths;
+}
+
+// 2. Grab slug from params, and page info from props
+const { slug } = Astro.params;
+const { page } = Astro.props;
+
+// 3. Get category-specific data
+const { categories } = await getBlogIndexData({}); // all categories
+---
+
+<BlogLayout posts={page.data} categories={categories} categorySlug={slug} />
+<ClearFilter />
+<Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />

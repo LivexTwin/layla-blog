@@ -1,32 +1,45 @@
 ---
-// ./src/components/PortableTextImage.astro
-import { urlForImage } from "../sanity/lib/url-for-image";
+// PortableTextImageNew.astro
+import SanityImage from "./SanityImage.astro";
 
-// const { asset, alt } = Astro.props.node;
-const { asset, alt, caption, attribution, attributionLink  } = Astro.props.node;
+const { node } = Astro.props;
+console.log("PortableTextImage props:", Astro.props);
 
-const url = urlForImage(asset).url();
-const webpUrl = urlForImage(asset).format("webp").url();
+const image = node.image || node;
+const caption = node.caption ?? image.caption;
+const attribution = node.attribution ?? image.attribution;
+const attributionLink = node.attributionLink ?? image.attributionLink;
+
+const hasCaption = caption || attribution || attributionLink;
 ---
 
-<!-- <picture>
-  <source srcset={webpUrl} type="image/webp" />
-  <img class="responsive__img" src={url} alt={alt} />
-</picture> -->
+{
+  hasCaption ? (
+    <figure>
+      {/* <SanityImage image={image} /> */}
+      <SanityImage image={{ ...image, alt: node.alt }} />
 
-<figure>
-  <picture>
-    <source srcset={webpUrl} type="image/webp" />
-    <img class="responsive__img" src={url} alt={alt} />
-  </picture>
-
-  {/* Display the caption if it exists */}
-  {caption && <figcaption>{caption}</figcaption>}
-
-  {/* Display the attribution with a hyperlink if it exists */}
-  {attribution && attributionLink && (
-    <figcaption class="attribution">
-      Photo by <a href={attributionLink} target="_blank" rel="noopener noreferrer">{attribution}</a>
-    </figcaption>
-  )}
-</figure>
+      <figcaption>
+        {caption}
+        {attribution && (
+          <>
+            {" — "}
+            {attributionLink ? (
+              <a
+                href={attributionLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {attribution}
+              </a>
+            ) : (
+              attribution
+            )}
+          </>
+        )}
+      </figcaption>
+    </figure>
+  ) : (
+    <SanityImage image={image} />
+  )
+}

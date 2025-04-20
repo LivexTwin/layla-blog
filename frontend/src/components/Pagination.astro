@@ -1,0 +1,12 @@
+---
+// /components/Pagination.astro
+import Link from "./Link.astro";
+
+const { prevUrl, nextUrl } = Astro.props;
+---
+
+<nav aria-label="Pagination for blog posts">
+  {prevUrl && <Link text="Previous" href={prevUrl} />}
+  <!-- {!nextUrl && <span aria-disabled="true">Next</span>} -->
+  {nextUrl && <Link text="Next" href={nextUrl} />}
+</nav>
