@@ -1,15 +1,18 @@
 ---
 //.src/components/BlogLayout.astro
+import Layout from "../layouts/Layout.astro";
 import CategoryFilterList from "./CategoryFilterList.astro";
 import PostCard from "./PostCard.astro";
 
 const { posts, categories, categorySlug } = Astro.props;
 ---
 
-<h1>Blog</h1>
+<Layout>
+  <h1>Blog</h1>
 
-<CategoryFilterList categories={categories} categorySlug={categorySlug} />
+  <CategoryFilterList categories={categories} categorySlug={categorySlug} />
 
-<div class="post-list">
-  {posts.map((post) => <PostCard post={post} />)}
-</div>
+  <div class="post-list">
+    {posts.map((post) => <PostCard post={post} />)}
+  </div>
+</Layout>

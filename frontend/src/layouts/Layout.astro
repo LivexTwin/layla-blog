@@ -1,33 +1,28 @@
 ---
 // ./src/layouts/Layout.astro
 import { VisualEditing } from "@sanity/astro/visual-editing";
+import "../styles/style.css";
+import "../styles/main.css";
+import TheNavigation from "../components/TheNavigation.astro";
 
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
 ---
 
-
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-		<VisualEditing enabled={visualEditingEnabled} />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!-- <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" /> -->
+    <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Basics</title>
+  </head>
+  <body>
+    <TheNavigation />
+    <slot />
+    <VisualEditing enabled={visualEditingEnabled} />
+  </body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-		
-	}
-</style>

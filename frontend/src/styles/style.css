@@ -1,0 +1,96 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+/* 2. Remove default margin */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  min-height: 100%;
+  min-width: 100%;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: var(--font-family);
+  font-weight: var(--fw-regular);
+  line-height: var(--lh-base);
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+strong,
+b {
+  font-weight: var(--fw-bold);
+}
+/* variables */
+:root {
+  /* Primary Color Palette */
+  --primary: #0e4f47;
+  --secondary: #a8bdb3;
+  --accent: #f2926e;
+
+  /* Neutral Colors */
+  --neutral-light: #f2f6f3;
+  --neutral-light-2: f3f0ed;
+  --neutral-dark: #141414;
+
+  /* Background and text colors */
+  --background-color: var(--neutral-light);
+  --text-color: var(--neutral-dark);
+
+  /* font */
+  --font-family: "sofia-pro", sans-serif;
+  --fw-light: 200;
+  --fw-regular: 300;
+  --fw-bold: 400;
+
+  /* spacing */
+  --spacing-xxs: 0.25rem; /* 4px */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 0.75rem; /* 12px */
+  --spacing-md: 1rem; /* 16px */
+  --spacing-lg: 1.5rem; /* 24px */
+  --spacing-xl: 2rem; /* 32px */
+  --spacing-xxl: 3rem; /* 48px */
+  --spacing-xxxl: 4rem; /* 64px */
+
+  /* Font Sizes */
+  --fs-xs: 0.875rem; /* 14px - small labels, meta info */
+  --fs-sm: 1rem; /* 16px - body text */
+  --fs-md: 1.25rem; /* 20px - subheadings */
+  --fs-lg: 1.5rem; /* 24px - H3 */
+  --fs-xl: 2rem; /* 32px - H2 */
+  --fs-xxl: 2.5rem; /* 40px - H1 */
+  --fs-xxxl: 3rem; /* 48px - hero headline, optional */
+
+  /* Line Height */
+  --lh-base: 1.6; /* 1.6 is a good default for body text */
+  --lh-tight: 1.2; /* Tight line height for headings */
+}

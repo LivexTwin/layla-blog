@@ -1,17 +1,35 @@
 ---
 // pages/index.astro (or pages/blog/index.astro)
 
-import Layout from '../layouts/Layout.astro';
-
+import Layout from "../layouts/Layout.astro";
+import Logo from "../components/Logo.astro";
 ---
 
 <Layout>
-
-
-    <!-- <PostList /> -->
-<div><p>hello blog</p></div>
- <a href="/blog">Visit Blog</a>
+  <main>
+    <header class="hero">
+      <div class="hero-logo__wrapper">
+        <Logo class="hero-logo" />
+        <p>Therapy</p>
+      </div>
+    </header>
+  </main>
 </Layout>
 
+<style>
+  .hero {
+    border: 1px solid pink;
+    min-height: 60vh;
+  }
 
+  .hero-logo__wrapper {
+    max-width: 400px;
+    margin-inline: auto;
+  }
 
+  .hero-logo__wrapper p {
+    text-transform: uppercase;
+    font-size: 3.5rem;
+    font-weight: var(--fw-bold);
+  }
+</style>
