@@ -1,4 +1,61 @@
+/* general  */
 #logo {
-  height: auto;
-  color: var(--primary);
+  color: var(--clr-primary);
+}
+
+.logo-size {
+  height: clamp(48px, 4vw, 72px);
+  width: auto;
+}
+
+.wrapper {
+  max-width: var(--wrapper-width);
+
+  margin-inline: auto;
+}
+
+/* Sanity blog styling */
+/* h1,  */
+
+/* buttons */
+/* global */
+
+.btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--letter-spacing);
+}
+
+/* Modifier for primary button */
+.btn-primary {
+  background-color: var(--clr-primary);
+  color: var(--clr-neutral-light);
+}
+
+/* Modifier for secondary button */
+.btn-secondary {
+  background-color: var(--clr-neutral-light);
+  border: var(--border) var(--clr-secondary);
+  color: var(--clr-primary);
+}
+
+/* components */
+/* header */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  padding-inline: var(--spacing-sm);
+  padding-block: var(--spacing-xxs);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background-color: var(--clr-neutral-light);
+}
+
+.spacer {
+  flex: 1;
 }

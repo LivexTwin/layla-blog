@@ -1,12 +1,56 @@
 ---
 // ./src/components/PostCard.astro
 const { post } = Astro.props; // Get the post object passed as a prop
+import SanityImage from "./SanityImage.astro";
+import Icon from "./Icon.astro";
 ---
 
-
-<article>
-  <h2><a href={`/blog/${post.slug.current}`}>{post.title}</a></h2>
-  <p>{post.publishedAt}</p>
-
-  <!-- More post content can go here -->
+<article class="post-card">
+  <a href={`/blog/${post.slug.current}`} class="post-card__link">
+    <SanityImage
+      class="post-card__image"
+      image={{ ...post.mainImage }}
+      maxWidth={600}
+    />
+    <div class="post-card__content">
+      <h3>{post.title}</h3>
+      <div class="post-card__action">
+        <Icon name="readpost" size={18} title="Read article" />
+        <span>Read post</span>
+      </div>
+    </div>
+  </a>
 </article>
+
+<style>
+  .post-card__image {
+    aspect-ratio: 1/0.5;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+  }
+
+  .post-card h3 {
+    font-size: var(--fs-fluid-h3);
+    margin-top: var(--spacing-sm);
+  }
+
+  .post-card__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card__action {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs); /* or var(--spacing-xs) */
+    margin-top: var(--spacing-sm);
+
+    width: max-content;
+  }
+
+  .post-card__action span {
+    font-weight: var(--fw-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing);
+  }
+</style>

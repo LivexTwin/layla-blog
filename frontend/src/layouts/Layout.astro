@@ -4,6 +4,10 @@ import { VisualEditing } from "@sanity/astro/visual-editing";
 import "../styles/style.css";
 import "../styles/main.css";
 import TheNavigation from "../components/TheNavigation.astro";
+import Logo from "../components/Logo.astro";
+import TheFooter from "../components/TheFooter.astro";
+
+const { showLogo = true } = Astro.props;
 
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
@@ -21,8 +25,15 @@ const visualEditingEnabled =
     <title>Astro Basics</title>
   </head>
   <body>
-    <TheNavigation />
-    <slot />
-    <VisualEditing enabled={visualEditingEnabled} />
+    <div>
+      <header class="site-header">
+        {showLogo && <Logo class="logo-size" />}
+        <div class="spacer logo-size"></div>
+        <TheNavigation />
+      </header>
+      <slot />
+      <VisualEditing enabled={visualEditingEnabled} />
+      <TheFooter />
+    </div>
   </body>
 </html>

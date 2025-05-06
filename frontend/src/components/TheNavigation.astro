@@ -1,7 +1,60 @@
-<nav>
-  <ul>
-    <li><a href="/about">About</a></li>
-    <li><a href="/blog">Blog</a></li>
-    <li><a href="/contact">Contact</a></li>
+---
+import MenuAnimation from "./MenuAnimation";
+---
+
+<!-- TheNavigation.astro -->
+<nav class="menu">
+  <button
+    class="menu__toggle btn btn-secondary"
+    aria-expanded="false"
+    aria-controls="menu-list">Menu</button
+  >
+
+  <ul class="menu__list">
+    <li class="menu__item"><a href="/" class="menu__link">Home</a></li>
+
+    <li class="menu__item"><a href="#" class="menu__link">About</a></li>
+
+    <li class="menu__item"><a href="/blog" class="menu__link">Blog</a></li>
+
+    <li class="menu__item"><a href="#" class="menu__link">Contact</a></li>
   </ul>
 </nav>
+
+<MenuAnimation client:load />
+
+<style>
+  .menu__toggle {
+    width: 6ch;
+    padding-inline: var(--spacing-xs);
+    padding-block: var(--spacing-xxxs);
+    text-align: center;
+  }
+
+  .menu__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--clr-neutral-light);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    padding-top: var(--spacing-xxs);
+    padding-bottom: var(--spacing-sm);
+    padding-left: var(--spacing-lg);
+    box-shadow: var(--box-shadow);
+    z-index: 10;
+  }
+
+  .menu__item:not(:last-child) {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .menu__link {
+    text-transform: uppercase;
+    font-weight: var(--fw-bold);
+    color: var(--clr-primary);
+    letter-spacing: var(--letter-spacing);
+  }
+</style>

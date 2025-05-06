@@ -9,6 +9,12 @@
   padding: 0;
 }
 
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
 html,
 body {
   min-height: 100%;
@@ -19,7 +25,15 @@ body {
   background-color: var(--background-color);
   font-family: var(--font-family);
   font-weight: var(--fw-regular);
+
+  /* font-size: var(--fs-sm); */
+  font-size: var(--fs-body-fluid);
   line-height: var(--lh-base);
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
 }
 
 img,
@@ -29,6 +43,7 @@ canvas,
 svg {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 h1,
@@ -38,9 +53,48 @@ h4,
 h5,
 h6 {
   font-weight: inherit;
-  margin: 0;
-  padding: 0;
+  text-wrap: balance;
+  font-size: initial;
 }
+
+/* Typography: Headings (Sanity blog) */
+.blog-post h1,
+.blog-post h2,
+.blog-post h3 {
+  line-height: var(--lh-tight);
+}
+
+.blog-post h1 {
+  font-size: var(--fs-fluid-h1);
+  margin-bottom: var(--spacing-xl);
+}
+
+.blog-post h2 {
+  font-size: var(--fs-fluid-h2);
+  margin-bottom: var(--spacing-lg);
+}
+
+.blog-post h3 {
+  font-size: var(--fs-fluid-h3);
+  margin-bottom: var(--spacing-md);
+}
+
+.blog-post h4,
+.blog-post h5,
+.blog-post h6 {
+  font-size: var(--fs-md);
+  line-height: 1.4;
+  margin-bottom: var(--spacing-sm);
+}
+
+.blog-post p {
+  margin-bottom: var(--spacing-md); /* Consistent spacing between paragraphs */
+}
+
+.blog-post section {
+  margin-bottom: var(--spacing-lg); /* Vertical space between sections */
+}
+/* Typography: Headings (end) */
 
 h1,
 h2,
@@ -49,21 +103,63 @@ strong,
 b {
   font-weight: var(--fw-bold);
 }
+
+button {
+  all: unset;
+
+  cursor: pointer;
+}
+
+/* global spacing */
+
+a,
+a:visited {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block; /* enables padding, margin, etc. */
+}
+
+/* a:hover,
+a:focus {
+  text-decoration: underline; 
+} */
+
+a::after,
+a::before {
+  text-decoration: none;
+}
+
+/* Global Paragraph */
+/* p {
+  margin-bottom: var(--spacing-md);
+}
+
+
+h1, h2, h3, h4 {
+  margin-bottom: var(--spacing-sm);
+}
+
+section {
+  padding: var(--spacing-xl) var(--spacing-md);
+} */
+
 /* variables */
 :root {
   /* Primary Color Palette */
-  --primary: #0e4f47;
-  --secondary: #a8bdb3;
-  --accent: #f2926e;
+  --clr-primary: #0e4f47;
+  --clr-secondary: #a8bdb3;
+  --clr-accent: #f2926e;
+  --clr-accent-2: #f4cba4;
+  --clr-accent-3: #dcd4e8;
 
   /* Neutral Colors */
-  --neutral-light: #f2f6f3;
-  --neutral-light-2: f3f0ed;
-  --neutral-dark: #141414;
+  --clr-neutral-light: #f2f6f3;
+  --clr-neutral-light-2: #f3f0ed;
+  --clr-neutral-dark: #141414;
 
   /* Background and text colors */
-  --background-color: var(--neutral-light);
-  --text-color: var(--neutral-dark);
+  --background-color: var(--clr-neutral-light);
+  --text-color: var(--clr-neutral-dark);
 
   /* font */
   --font-family: "sofia-pro", sans-serif;
@@ -72,14 +168,21 @@ b {
   --fw-bold: 400;
 
   /* spacing */
-  --spacing-xxs: 0.25rem; /* 4px */
-  --spacing-xs: 0.5rem; /* 8px */
-  --spacing-sm: 0.75rem; /* 12px */
-  --spacing-md: 1rem; /* 16px */
-  --spacing-lg: 1.5rem; /* 24px */
-  --spacing-xl: 2rem; /* 32px */
-  --spacing-xxl: 3rem; /* 48px */
-  --spacing-xxxl: 4rem; /* 64px */
+  --spacing-xxxs: 0.25rem; /* 4px */
+  --spacing-xxs: 0.5rem; /* 8px */
+  --spacing-xs: 0.75rem; /* 12px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+  --spacing-xxl: 4rem; /* 64px */
+  --spacing-xxxl: 5rem; /* 80px */
+
+  /* todo ad breathing room */
+  /* go to dropbox */
+
+  /* wrapper width */
+  --wrapper-width: min(88%, 88rem); /* max width of the wrapper */
 
   /* Font Sizes */
   --fs-xs: 0.875rem; /* 14px - small labels, meta info */
@@ -90,7 +193,21 @@ b {
   --fs-xxl: 2.5rem; /* 40px - H1 */
   --fs-xxxl: 3rem; /* 48px - hero headline, optional */
 
+  --fs-fluid-h1: clamp(var(--fs-lg), 2.5vw + 1rem, var(--fs-xxl));
+  --fs-fluid-h2: clamp(var(--fs-md), 2vw + 1rem, var(--fs-xl));
+  --fs-fluid-h3: clamp(var(--fs-sm), 1.5vw + 1rem, var(--fs-lg));
+  --fs-fluid-h4: clamp(var(--fs-xs), 1vw + 1rem, var(--fs-md));
+
+  --fs-body-fluid: clamp(1rem, 0.95rem + 0.25vw, 1.125rem); /* 16px to ~18px */
+
   /* Line Height */
-  --lh-base: 1.6; /* 1.6 is a good default for body text */
+  --lh-base: 1.5; /* 1.6 is a good default for body text */
   --lh-tight: 1.2; /* Tight line height for headings */
+
+  /* misc */
+  --border-radius: var(--spacing-xxxs);
+  --border: 1px solid;
+  --letter-spacing: 0.1em;
+  --box-shadow:
+    rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
 }

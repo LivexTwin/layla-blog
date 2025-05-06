@@ -1,0 +1,73 @@
+---
+import Logo from "../components/Logo.astro";
+---
+
+<header class="hero">
+  <div class="hero-logo__container">
+    <Logo class="hero-logo" />
+    <span class="hero-logo__tagline">Therapy</span>
+  </div>
+
+  <div class="hero__content">
+    <h1 class="hero__title">Step into stillness</h1>
+    <p class="hero__description">
+      A quiet space to reconnect with yourself through gentle reflections and
+      meaningful insights.
+      <br />
+    </p>
+    <a href="/blog" class="hero__cta btn btn-primary">Begin exploring</a>
+  </div>
+</header>
+
+<style>
+  .hero {
+    border-bottom: var(--border) var(--clr-secondary);
+    padding-top: var(--spacing-xxxl); /* 32px */
+    padding-bottom: var(--spacing-xl);
+    /* min-height: 60vh; */
+  }
+
+  .hero-logo {
+    max-width: 100%;
+    width: 12rem; /* Adjust as needed */
+  }
+
+  .hero-logo__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: var(--spacing-xl);
+  }
+
+  .hero-logo__tagline {
+    font-size: var(--fs-sm); /* or try var(--fs-md) */
+    color: var(--primary);
+    text-transform: uppercase; /* Make it uppercase */
+    letter-spacing: var(--letter-spacing);
+  }
+
+  /* .hero__content {
+    padding-inline: var(--spacing-md);
+  } */
+
+  .hero__title {
+    font-size: var(--fs-fluid-h3);
+    margin-bottom: var(--spacing-xs);
+    line-height: var(--lh-tight);
+  }
+
+  .hero__description {
+    text-wrap: balance;
+  }
+
+  .hero__cta {
+    margin-top: var(--spacing-md);
+  }
+
+  /* mq */
+  @media (max-width: 768px) {
+    .hero__content {
+      padding-inline: var(--spacing-lg);
+    }
+  }
+</style>

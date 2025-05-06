@@ -1,21 +1,75 @@
 ---
-// src/components/RecentPosts.astro
-import { loadQuery } from '../sanity/lib/load-query';
-import { postsQuery } from '../sanity/lib/queries';
-import PostCard from './PostCard.astro';
+import { sanityClient } from "sanity:client";
+import { postsQuery } from "../sanity/lib/queries";
+import PostCard from "./PostCard.astro";
 
-const { data: posts } = await loadQuery({
-  query: postsQuery,
-});
+let recentPosts = [];
+let errorMessage = ""; // Store the error message
 
-const recent = posts.slice(0, 3); // limit to 3 posts
+try {
+  const posts = await sanityClient.fetch(postsQuery);
+  recentPosts = posts.slice(0, 3); // Limit to 3 posts
+} catch (error) {
+  errorMessage = "Sorry, we couldn't load the recent posts at the moment.";
+  console.error("Error fetching recent posts:", error);
+}
 ---
 
-<section>
+<section class="recent-posts wrapper">
   <h2>Recent Posts</h2>
-  <ul>
-    {recent.map(post => (
-      <li><PostCard post={post} /></li>
-    ))}
-  </ul>
+  {
+    errorMessage ? (
+      <p>{errorMessage}</p> // Display error message
+    ) : (
+      <ul class="recent-posts__grid">
+        {recentPosts.length ? (
+          recentPosts.map((post) => (
+            <li>
+              <PostCard post={post} />
+            </li>
+          ))
+        ) : (
+          <li>No posts available.</li>
+        )}
+      </ul>
+    )
+  }
+  <div class="recent-posts__cta">
+    <p>Discover the stillness inside</p>
+    <a href="/blog" class="btn btn-secondary">View all posts</a>
+  </div>
 </section>
+
+<style>
+  .recent-posts {
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .recent-posts h2 {
+    font-size: var(--fs-fluid-h3);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .recent-posts__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xxl);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .recent-posts__cta {
+    text-align: center;
+  }
+
+  .recent-posts__cta p {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* mq */
+  @media (min-width: 1024px) {
+    .recent-posts__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

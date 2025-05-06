@@ -1,6 +1,8 @@
 ---
 import getImageProps from "../sanity/lib/get-image-props";
 
+const { class: className, ...rest } = Astro.props;
+
 const { image, maxWidth = 600, loading = "lazy" } = Astro.props;
 
 if (!image || !image.asset) {
@@ -15,7 +17,6 @@ const fetchpriority = loading === "eager" ? "high" : undefined;
 ---
 
 <img
-  style="height: auto"
   loading={loading}
   fetchpriority={fetchpriority}
   alt={image.alt || ""}
@@ -24,6 +25,8 @@ const fetchpriority = loading === "eager" ? "high" : undefined;
   sizes={sizes}
   width={width}
   height={height}
+  class={className}
+  {...rest}
 />
 
 <!-- TODO -->

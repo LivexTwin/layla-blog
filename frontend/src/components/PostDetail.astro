@@ -7,7 +7,7 @@ import TagList from "./TagList.astro";
 const { post } = Astro.props;
 ---
 
-<article>
+<article class="blog-post">
   {
     post.mainImage && (
       <SanityImage image={post.mainImage} maxWidth={1000} loading="eager" />
