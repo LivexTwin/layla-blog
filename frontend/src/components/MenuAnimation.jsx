@@ -13,18 +13,18 @@ export default function MenuAnimation() {
     const openMenu = () => {
       menuToggle.textContent = "Close";
       menuToggle.setAttribute("aria-expanded", "true");
+
       gsap.to(menuList, {
         height: "auto",
-        opacity: 1,
         duration: 0.4,
         onStart: () => (menuList.style.pointerEvents = "auto"),
       });
 
+      // Optional: remove if you don't want individual item animation
       gsap.fromTo(
         menuItems,
-        { opacity: 0, y: 10 },
+        { y: 10 },
         {
-          opacity: 1,
           y: 0,
           duration: 0.4,
           stagger: 0.1,
@@ -36,8 +36,9 @@ export default function MenuAnimation() {
     const closeMenu = () => {
       menuToggle.textContent = "Menu";
       menuToggle.setAttribute("aria-expanded", "false");
+
+      // Optional: remove if not animating individual items
       gsap.to(menuItems, {
-        opacity: 0,
         y: 10,
         duration: 0.2,
         stagger: 0.05,
@@ -46,7 +47,6 @@ export default function MenuAnimation() {
 
       gsap.to(menuList, {
         height: 0,
-        opacity: 0,
         duration: 0.4,
         onComplete: () => (menuList.style.pointerEvents = "none"),
       });

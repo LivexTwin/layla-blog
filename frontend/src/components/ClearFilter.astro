@@ -2,8 +2,27 @@
 export interface Props {
   label?: string;
 }
-const { label = "Clear filter" } = Astro.props;
+const { label = "Clear Filter" } = Astro.props;
 ---
 
-<a href="/blog">{label}</a>
+<a class="clear-filter" href="/blog">{label}</a>
 <!-- <a href="/blog">Clear filter</a> -->
+
+<style>
+  .clear-filter {
+    background-color: var(--clr-neutral-light-2);
+    border: var(--border) var(--clr-accent);
+    padding: var(--spacing-xxxs) var(--spacing-xxs);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-bold);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-md);
+  }
+
+  .clear-filter:hover,
+  .clear-filter:focus {
+    background-color: var(--clr-accent-light);
+    color: var(--clr-neutral-dark);
+    text-decoration: underline;
+  }
+</style>

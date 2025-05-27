@@ -2,18 +2,26 @@
 // src/components/Icon.astro
 const {
   name,
-  size = 24,
+  size = 32,
   title = "",
-  color = "var(--clr-primary)",
+  color = "var(--clr-accent)",
+  class: className,
+  ...rest
 } = Astro.props;
 
-import IconReadPost from "./icons/IconReadPost.astro";
+import IconBook from "./icons/IconBook.astro";
 import IconArrow from "./icons/IconArrow.astro";
+import IconCalendar from "./icons/IconCalendar.astro";
+import IconClock from "./icons/IconClock.astro";
+import IconLink from "./icons/IconLink.astro";
 // ...add more as needed
 
 const icons = {
-  readpost: IconReadPost,
+  book: IconBook,
   arrow: IconArrow,
+  calendar: IconCalendar,
+  clock: IconClock,
+  link: IconLink,
 };
 
 const SelectedIcon = icons[name.toLowerCase()];
@@ -22,8 +30,10 @@ const SelectedIcon = icons[name.toLowerCase()];
 {
   SelectedIcon ? (
     <SelectedIcon
-      style={`width: ${size}px; height: ${size}px; color: ${color};`}
+      style={`width: ${size}px; height: ${size}px; color: ${color}; `}
       title={title}
+      class={className}
+      {...rest}
     />
   ) : (
     <span style="color: var(--clr-accent);">Missing icon: {name}</span>

@@ -1,9 +1,14 @@
 ---
 // ./src/pages/blog/[slug].astro
 import Layout from "../../layouts/Layout.astro";
-// import PostDetail from '../../components/PostDetail.astro';
 import PostDetail from "../../components/PostDetail.astro";
-import { getPostBySlug, getAllPosts } from "../../utils/sanityQueries"; // Import the new helper function
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import {
+  getPostBySlug,
+  getAllPosts,
+  getRelatedPosts,
+} from "../../utils/sanityQueries"; // Import the new helper function
+import SanityPostPreview from "../../components/sanity/SanityPostPreview.astro";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(); // Use the function from sanityQueries.ts to fetch all posts
@@ -12,11 +17,38 @@ export async function getStaticPaths() {
   }));
 }
 
-const { slug } = Astro.params;
-const post = await getPostBySlug(slug); // Use the new helper function to fetch the post by slug
+const { slug } = Astro.params; // Get the slug from the URL
+const post = await getPostBySlug(slug); // Fetch the current post by slug
+// const { current: post, next: nextPost } = await getPostBySlug(slug);
+
+// If the post is not found, throw an error or handle the 404 case
 if (!post) throw new Error("Post not found");
+
+// Fetch the related posts for the current post
+const relatedPosts = await getRelatedPosts(slug);
 ---
 
 <Layout>
-  <PostDetail post={post} />
+  <div class="blog-post__container">
+    <PostDetail post={post} relatedPosts={relatedPosts} />
+    <RelatedPosts relatedPosts={relatedPosts} />
+
+    <!-- {
+      nextPost && (
+        <SanityPostPreview
+          image={nextPost.mainImage}
+          slug={nextPost.slug}
+          altText={nextPost.title}
+          title={nextPost.title}
+        />
+      )
+    } -->
+  </div>
 </Layout>
+
+<style>
+  .blog-post__container {
+    background-color: var(--clr-neutral-light);
+    height: 100%;
+  }
+</style>

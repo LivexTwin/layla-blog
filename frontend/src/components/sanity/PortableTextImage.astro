@@ -16,7 +16,6 @@ const hasCaption = caption || attribution || attributionLink;
 {
   hasCaption ? (
     <figure>
-      {/* <SanityImage image={image} /> */}
       <SanityImage image={{ ...image, alt: node.alt }} />
 
       <figcaption>

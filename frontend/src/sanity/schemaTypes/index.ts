@@ -6,6 +6,7 @@ import { categoryType } from "./category";
 import { postType } from "./post";
 import { tagType } from "./tag";
 import { figureType } from "./figure";
+import { quoteType } from "./quote";
 
 import siteSettings from "./siteSettings";
 import colors from "./colors";
@@ -18,6 +19,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     categoryType,
     postType,
     tagType,
+    quoteType,
 
     siteSettings,
     colors,

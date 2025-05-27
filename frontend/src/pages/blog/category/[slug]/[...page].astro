@@ -1,7 +1,6 @@
 ---
 import BlogLayout from "../../../../components/BlogLayout.astro";
 import Pagination from "../../../../components/Pagination.astro";
-import ClearFilter from "../../../../components/ClearFilter.astro";
 
 import { getBlogIndexData } from "../../../../utils/getBlogIndexData";
 import { getCategorySlugs } from "../../../../utils/sanityQueries";
@@ -33,6 +32,14 @@ const { page } = Astro.props;
 const { categories } = await getBlogIndexData({}); // all categories
 ---
 
-<BlogLayout posts={page.data} categories={categories} categorySlug={slug} />
-<ClearFilter />
-<Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+<BlogLayout
+  posts={page.data}
+  categories={categories}
+  categorySlug={slug}
+  prevUrl={page.url.prev}
+  nextUrl={page.url.next}
+  currentPage={page.currentPage}
+  lastPage={page.lastPage}
+/>
+
+<!-- <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} /> -->

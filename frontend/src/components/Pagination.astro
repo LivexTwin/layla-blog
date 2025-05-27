@@ -1,12 +1,65 @@
 ---
-// /components/Pagination.astro
+// Pagination.astro
 import Link from "./Link.astro";
+import Icon from "./Icon.astro";
 
-const { prevUrl, nextUrl } = Astro.props;
+const { prevUrl, nextUrl, currentPage } = Astro.props;
+const arrowColor = "var(--clr-neutral-dark)";
 ---
 
-<nav aria-label="Pagination for blog posts">
-  {prevUrl && <Link text="Previous" href={prevUrl} />}
-  <!-- {!nextUrl && <span aria-disabled="true">Next</span>} -->
-  {nextUrl && <Link text="Next" href={nextUrl} />}
-</nav>
+{
+  (prevUrl || nextUrl) && (
+    <nav aria-label="Pagination for blog posts" class="pagination">
+      {prevUrl && (
+        <Link href={prevUrl} class="pagination__link">
+          <Icon
+            class="rotate"
+            name="arrow"
+            size={24}
+            title="Go back"
+            color={arrowColor}
+          />
+          <span>Go back</span>
+        </Link>
+      )}
+
+      {nextUrl && (
+        <Link href={nextUrl} class="pagination__link pagination__link--next">
+          <span>Page {currentPage + 1}</span>
+          <Icon name="arrow" size={24} title="Next" color={arrowColor} />
+        </Link>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    font-size: var(--fs-xs);
+  }
+
+  .rotate {
+    transform: rotate(180deg);
+  }
+
+  .pagination__link {
+    margin-left: 0;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

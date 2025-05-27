@@ -10,10 +10,12 @@ const postPreviewFields = `
     asset,
     alt
   },
-  category->{
+  category-> {
+    _id,
     title,
     slug
-  }
+  },
+   "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 `;
 
 // one post (for PostDetail)
@@ -60,7 +62,7 @@ export const postQuery = `
 
 // all posts (for Blog index)
 export const postsQuery = `
-  *[_type == "post"] | order(publishedAt desc) {
+  *[_type == "post"] | order(publishedAt desc)[0...200] {
     ${postPreviewFields}
   }
 `;
@@ -77,10 +79,26 @@ export const postsByCategoryQuery = `
 
 // used categories (for filter list)
 export const usedCategoriesQuery = `
-  *[_type == "category" && count(*[_type == "post" && references(^._id)]) > 0] {
+  *[_type == "category" && count(*[_type == "post" && references(^._id)]) > 0][0...8] {
     title,
     "slug": slug.current,
     _id
+  }
+`;
+
+export const tagsQuery = `
+  *[_type == "tag"] | order(title asc) {
+    _id,
+    title,
+    slug
+  }
+`;
+
+// need related posts query
+export const relatedPostsQuery = `
+  *[_type == "post" && category._ref == $categoryId && _id != $postId] 
+  | order(publishedAt desc) [0..3] {
+    ${postPreviewFields}
   }
 `;
 
@@ -95,11 +113,3 @@ export const usedCategoriesQuery = `
 //     }
 //   }
 // `;
-
-export const tagsQuery = `
-  *[_type == "tag"] | order(title asc) {
-    _id,
-    title,
-    slug
-  }
-`;

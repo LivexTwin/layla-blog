@@ -1,0 +1,34 @@
+---
+// components/RelatedPosts.astro
+import PostCard from "./PostCard.astro";
+
+const { relatedPosts } = Astro.props;
+console.log(relatedPosts);
+---
+
+{
+  // Only render the related posts section if there are related posts
+  relatedPosts && relatedPosts.length > 0 && (
+    <section class="related-posts wrapper">
+      <h2>Related Posts</h2>
+      <ul class="related-posts__list">
+        {relatedPosts.map((post) => (
+          <li key={post._id}>
+            <PostCard post={post} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .related-posts {
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .related-posts h2 {
+    font-size: var(--fs-fluid-h2);
+    margin-bottom: var(--spacing-lg);
+  }
+</style>

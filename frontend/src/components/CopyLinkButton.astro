@@ -1,0 +1,103 @@
+---
+import Icon from "./Icon.astro";
+
+const { slug } = Astro.props;
+const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
+---
+
+<p class="copy-link__label">Found this helpful? Share it:</p>
+<div class="copy-link">
+  <input
+    id="copy-url-input"
+    class="copy-link__input"
+    type="text"
+    readonly
+    value={url}
+    aria-label="Blog post URL"
+  />
+  <button
+    id="copy-btn"
+    class="copy-link__btn"
+    aria-label="Copy blog post link"
+    type="button"
+  >
+    <Icon name="link" title="Copy blog post link" />
+  </button>
+</div>
+
+<script type="module">
+  const btn = document.getElementById("copy-btn");
+  const input = document.getElementById("copy-url-input");
+
+  btn.addEventListener("click", async () => {
+    if (btn.disabled) return; // prevent if disabled
+
+    try {
+      await navigator.clipboard.writeText(input.value);
+
+      const originalValue = input.value;
+      input.value = "Copied! ❤️";
+      btn.disabled = true; // disable button during message
+
+      setTimeout(() => {
+        input.value = originalValue;
+        btn.disabled = false; // re-enable button after 2s
+      }, 2000);
+    } catch (err) {
+      console.error("Copy failed", err);
+      const originalValue = input.value;
+      input.value = "Failed to copy";
+      btn.disabled = true;
+
+      setTimeout(() => {
+        input.value = originalValue;
+        btn.disabled = false;
+      }, 2000);
+    }
+  });
+</script>
+
+<style>
+  .copy-link__label {
+    font-weight: var(--fw-bold);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .copy-link {
+    display: flex;
+    border: var(--border) var(--clr-secondary);
+    border-radius: var(--border-radius);
+    max-width: 480px;
+    overflow: hidden; /* clip children to container border-radius */
+  }
+
+  .copy-link__input {
+    flex-grow: 1;
+    padding: var(--spacing-xxs);
+    border: none;
+    outline: none;
+    background: transparent;
+    user-select: all;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
+
+  .copy-link__btn {
+    border: none;
+    border-top-right-radius: var(--border-radius);
+    padding: var(--spacing-xxxs);
+    border-bottom-right-radius: var(--border-radius);
+    cursor: pointer;
+    /* Optional: add a subtle left border effect */
+    box-shadow: inset 1px 0 0 0 var(--clr-secondary);
+  }
+
+  .copy-link__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .copy-link__btn:hover {
+    color: #004a99;
+  }
+</style>

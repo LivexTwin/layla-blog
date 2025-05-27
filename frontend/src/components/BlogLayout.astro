@@ -3,16 +3,95 @@
 import Layout from "../layouts/Layout.astro";
 import CategoryFilterList from "./CategoryFilterList.astro";
 import PostCard from "./PostCard.astro";
+import Pagination from "./Pagination.astro";
 
-const { posts, categories, categorySlug } = Astro.props;
+const {
+  posts,
+  categories,
+  categorySlug,
+  prevUrl,
+  nextUrl,
+  currentPage,
+  lastPage,
+} = Astro.props;
 ---
 
 <Layout>
-  <h1>Blog</h1>
+  <section class="blog">
+    <div class="blog__header">
+      <div class="blog__header-inner">
+        <h1 class="blog__title">Blog Posts</h1>
+        <p class="blog__subtitle">
+          Reflect on posts about <span class="blog__subtitle-span">healing</span
+          >, awareness, and self-connection.
+        </p>
+      </div>
+    </div>
+    <CategoryFilterList categories={categories} categorySlug={categorySlug} />
+    <div class="post-list wrapper">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
 
-  <CategoryFilterList categories={categories} categorySlug={categorySlug} />
-
-  <div class="post-list">
-    {posts.map((post) => <PostCard post={post} />)}
-  </div>
+    <Pagination
+      prevUrl={prevUrl}
+      nextUrl={nextUrl}
+      currentPage={currentPage}
+      lastPage={lastPage}
+    />
+  </section>
 </Layout>
+
+<style>
+  .blog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .blog__header {
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .blog__header-inner {
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+    max-width: 55ch;
+    margin-inline: auto;
+    background: var(--clr-neutral-light);
+    border-radius: var(--border-radius);
+    text-wrap: balance;
+  }
+
+  .blog__title {
+    font-size: var(--fs-fluid-h1);
+    margin-bottom: var(--spacing-xxs);
+    line-height: var(--lh-tight);
+  }
+
+  .blog__subtitle-span {
+    font-weight: var(--fw-light);
+    color: var(--clr-primary);
+  }
+
+  /* post list */
+  .post-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    width: min(100%, var(--wrapper-width));
+    gap: var(--spacing-xxl);
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  /* mq */
+
+  @media (max-width: 768px) {
+    .blog__header {
+      padding-inline: var(
+        --spacing-md
+      ); /* Add padding for mobile phones and smaller screens */
+    }
+  }
+</style>

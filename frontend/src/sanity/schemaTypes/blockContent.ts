@@ -25,13 +25,16 @@ export const blockContentType = defineType({
       // use your content.
       styles: [
         { title: "Normal", value: "normal" },
-        { title: "H1", value: "h1" },
+        // { title: "H1", value: "h1" }, // taken care of already
         { title: "H2", value: "h2" },
         { title: "H3", value: "h3" },
         { title: "H4", value: "h4" },
-        { title: "Quote", value: "blockquote" },
+        // { title: "Quote", value: "blockquote" },
       ],
-      lists: [{ title: "Bullet", value: "bullet" }],
+      lists: [
+        { title: "Bullet", value: "bullet" },
+        { title: "Numbered", value: "number" },
+      ],
       // Marks let you mark up inline text in the Portable Text Editor
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
@@ -57,7 +60,9 @@ export const blockContentType = defineType({
         ],
       },
     }),
-
+    defineArrayMember({
+      type: "quote",
+    }),
     defineArrayMember({
       type: "image",
       name: "image",
@@ -69,7 +74,7 @@ export const blockContentType = defineType({
           type: "string",
           title: "Alternative Text",
           description:
-            "Help make the site more accessible & SEO-friendly with a short textual description of the image, e.g. 'A photo of a cat in a hat'.",
+            "Help make the site more accessible & SEO-friendly with a short textual description of the image, e.g. 'A photo of a cat in a hat. Longer descriptions benefits accessibility greatly",
           validation: (Rule) => Rule.required(),
         },
         {
@@ -83,7 +88,7 @@ export const blockContentType = defineType({
       ],
     }),
     defineArrayMember({
-      type: "figure", // this is the key part!
+      type: "figure",
     }),
   ],
 });

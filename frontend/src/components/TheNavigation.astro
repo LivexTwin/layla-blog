@@ -5,19 +5,21 @@ import MenuAnimation from "./MenuAnimation";
 <!-- TheNavigation.astro -->
 <nav class="menu">
   <button
-    class="menu__toggle btn btn-secondary"
+    class="menu__toggle btn"
     aria-expanded="false"
     aria-controls="menu-list">Menu</button
   >
 
   <ul class="menu__list">
-    <li class="menu__item"><a href="/" class="menu__link">Home</a></li>
+    <div class="menu__inner">
+      <li class="menu__item"><a href="/" class="menu__link">Home</a></li>
 
-    <li class="menu__item"><a href="#" class="menu__link">About</a></li>
+      <li class="menu__item"><a href="#" class="menu__link">About</a></li>
 
-    <li class="menu__item"><a href="/blog" class="menu__link">Blog</a></li>
+      <li class="menu__item"><a href="/blog" class="menu__link">Blog</a></li>
 
-    <li class="menu__item"><a href="#" class="menu__link">Contact</a></li>
+      <li class="menu__item"><a href="#" class="menu__link">Contact</a></li>
+    </div>
   </ul>
 </nav>
 
@@ -25,9 +27,10 @@ import MenuAnimation from "./MenuAnimation";
 
 <style>
   .menu__toggle {
+    color: var(--clr-primary);
     width: 6ch;
-    padding-inline: var(--spacing-xs);
-    padding-block: var(--spacing-xxxs);
+    padding: var(--spacing-xxxs) var(--spacing-xs);
+    border: var(--border) var(--clr-secondary);
     text-align: center;
   }
 
@@ -38,13 +41,16 @@ import MenuAnimation from "./MenuAnimation";
     right: 0;
     background: var(--clr-neutral-light);
     overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-    padding-top: var(--spacing-xxs);
-    padding-bottom: var(--spacing-sm);
-    padding-left: var(--spacing-lg);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    height: 0;
     box-shadow: var(--box-shadow);
     z-index: 10;
+  }
+
+  .menu__inner {
+    padding-top: var(--spacing-xxs);
+    padding-bottom: var(--spacing-md);
+    padding-left: var(--spacing-lg);
   }
 
   .menu__item:not(:last-child) {
@@ -52,7 +58,6 @@ import MenuAnimation from "./MenuAnimation";
   }
 
   .menu__link {
-    text-transform: uppercase;
     font-weight: var(--fw-bold);
     color: var(--clr-primary);
     letter-spacing: var(--letter-spacing);

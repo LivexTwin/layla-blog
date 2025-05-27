@@ -2,6 +2,7 @@
 // ./src/components/PortableText.astro
 import { PortableText as PortableTextInternal } from "astro-portabletext";
 import PortableTextImage from "./PortableTextImage.astro";
+import SanityQuote from "./SanityQuote";
 
 const { portableText } = Astro.props;
 
@@ -9,7 +10,7 @@ const components = {
   type: {
     image: PortableTextImage,
     figure: PortableTextImage,
-    // figureImage: PortableTextImageNew,
+    quote: (props) => SanityQuote(props),
   },
 };
 ---

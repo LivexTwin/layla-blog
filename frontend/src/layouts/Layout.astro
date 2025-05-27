@@ -25,13 +25,15 @@ const visualEditingEnabled =
     <title>Astro Basics</title>
   </head>
   <body>
-    <div>
-      <header class="site-header">
+    <div id="site">
+      <header class="site__header">
         {showLogo && <Logo class="logo-size" />}
         <div class="spacer logo-size"></div>
         <TheNavigation />
       </header>
-      <slot />
+      <main>
+        <slot />
+      </main>
       <VisualEditing enabled={visualEditingEnabled} />
       <TheFooter />
     </div>

@@ -14,9 +14,18 @@ export const postType = defineType({
     defineField({
       name: "slug",
       type: "slug",
+      description:
+        "Automatically generated from the title. You can edit it for clarity. Keep it under 96 characters.",
       options: {
         source: "title",
         maxLength: 96,
+        slugify: (input: string) =>
+          input
+            .toLowerCase()
+            .replace(/['’]/g, "") // remove apostrophes
+            .replace(/\s+/g, "-") // replace spaces with hyphens
+            .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
+            .slice(0, 96),
       },
     }),
     defineField({
@@ -59,9 +68,12 @@ export const postType = defineType({
       description: "Add up to 3 tags to describe this post (optional).",
       validation: (Rule) => Rule.max(3),
     }),
+
     defineField({
       name: "publishedAt",
       type: "datetime",
+      title: "Published At",
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "body",

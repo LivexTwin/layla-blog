@@ -1,0 +1,70 @@
+---
+// components/PostMeta.astro
+import { formatDate } from "../utils/formatDate";
+import Icon from "./Icon.astro";
+import { getReadingTime } from "../utils/readingTime";
+import TagList from "./TagList.astro";
+const { publishedAt, tags = [], estimatedReadingTime } = Astro.props;
+
+const readingTimeText = getReadingTime(estimatedReadingTime);
+---
+
+<div class="post-meta">
+  <div class="post-meta__container">
+    <div class="post-meta__inner-container">
+      <div class="post-meta__reading-time">
+        <Icon name="clock" title="Clock" />
+        <span class="">{readingTimeText}</span>
+      </div>
+      <time class="post-meta__date" datetime={publishedAt}>
+        <Icon name="calendar" title="Calendar" />
+        {formatDate(publishedAt)}
+      </time>
+    </div>
+    {
+      tags && tags.length > 0 && (
+        <div class="post-meta__tags">
+          <span>Tags:</span>
+          <TagList tags={tags} />
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .post-meta {
+    margin-bottom: var(--spacing-xl);
+    padding-inline: var(--spacing-md);
+    font-size: var(--fs-xs);
+    display: flex;
+  }
+
+  .post-meta__container {
+    background-color: var(--clr-neutral-light-2);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xxxs) var(--spacing-xs);
+  }
+
+  .post-meta__inner-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(0.25rem, 1vw, var(--spacing-md));
+    margin-bottom: var(--spacing-xxxs);
+  }
+
+  .post-meta__date,
+  .post-meta__reading-time {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xxxs);
+    flex-wrap: nowrap;
+  }
+
+  .post-meta__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xxs);
+  }
+</style>

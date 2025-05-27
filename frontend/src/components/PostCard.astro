@@ -1,21 +1,37 @@
 ---
 // ./src/components/PostCard.astro
 const { post } = Astro.props; // Get the post object passed as a prop
-import SanityImage from "./SanityImage.astro";
+import SanityImage from "./sanity/SanityImage.astro";
 import Icon from "./Icon.astro";
+import SanityFallbackImage from "./sanity/SanityFallbackImage.astro";
+
+const hasImage = post.mainImage && post.mainImage.asset;
 ---
 
 <article class="post-card">
   <a href={`/blog/${post.slug.current}`} class="post-card__link">
-    <SanityImage
+    <!-- <SanityImage
       class="post-card__image"
       image={{ ...post.mainImage }}
       maxWidth={600}
-    />
+    /> -->
+    <!-- todo: rmove import and delete has image logic later -->
+    {
+      hasImage ? (
+        <SanityImage
+          class="post-card__image"
+          image={{ ...post.mainImage }}
+          maxWidth={600}
+        />
+      ) : (
+        <SanityFallbackImage title={post.title} />
+      )
+    }
+
     <div class="post-card__content">
       <h3>{post.title}</h3>
       <div class="post-card__action">
-        <Icon name="readpost" size={18} title="Read article" />
+        <Icon name="book" title="Read article" />
         <span>Read post</span>
       </div>
     </div>
@@ -23,6 +39,10 @@ import Icon from "./Icon.astro";
 </article>
 
 <style>
+  .post-card {
+    margin-inline: auto;
+  }
+
   .post-card__image {
     aspect-ratio: 1/0.5;
     object-fit: cover;
@@ -44,13 +64,9 @@ import Icon from "./Icon.astro";
     align-items: center;
     gap: var(--spacing-xs); /* or var(--spacing-xs) */
     margin-top: var(--spacing-sm);
-
-    width: max-content;
   }
 
   .post-card__action span {
     font-weight: var(--fw-bold);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing);
   }
 </style>

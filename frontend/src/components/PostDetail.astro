@@ -1,21 +1,42 @@
 ---
-// components/PostDetailNew.astro
-import SanityImage from "./SanityImage.astro";
-import PortableText from "./PortableText.astro";
-import TagList from "./TagList.astro";
+import SanityImage from "./sanity/SanityImage.astro";
+import PortableText from "./sanity/PortableText.astro";
+import PostMeta from "./PostMeta.astro";
+import CopyLinkButton from "./CopyLinkButton.astro";
 
 const { post } = Astro.props;
+
+const hasImage = !!post.mainImage;
 ---
 
-<article class="blog-post">
+<article>
   {
-    post.mainImage && (
+    hasImage && (
       <SanityImage image={post.mainImage} maxWidth={1000} loading="eager" />
     )
   }
 
   <h1>{post.title}</h1>
 
-  <TagList tags={post.tags} />
-  <PortableText portableText={post.body} />
+  <PostMeta
+    publishedAt={post.publishedAt}
+    tags={post.tags}
+    estimatedReadingTime={post.estimatedReadingTime}
+  />
+
+  <div class="blog-post blog-wrapper">
+    <div class="blog-post__content">
+      <PortableText portableText={post.body} />
+    </div>
+
+    <CopyLinkButton slug={post.slug.current} />
+  </div>
 </article>
+
+<style>
+  h1 {
+    padding: var(--spacing-lg) var(--spacing-md);
+    font-size: calc(var(--fs-fluid-h1) + 0.05rem);
+    line-height: var(--lh-tight);
+  }
+</style>

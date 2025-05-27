@@ -13,6 +13,10 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--clr-secondary) var(--clr-neutral-light-2);
 }
 
 html,
@@ -22,17 +26,16 @@ body {
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--clr-neutral-light);
   font-family: var(--font-family);
   font-weight: var(--fw-regular);
-
-  /* font-size: var(--fs-sm); */
   font-size: var(--fs-body-fluid);
   line-height: var(--lh-base);
   color: var(--text-color);
 }
 
-ul {
+ul,
+ol {
   list-style: none;
 }
 
@@ -55,28 +58,19 @@ h6 {
   font-weight: inherit;
   text-wrap: balance;
   font-size: initial;
-}
-
-/* Typography: Headings (Sanity blog) */
-.blog-post h1,
-.blog-post h2,
-.blog-post h3 {
   line-height: var(--lh-tight);
 }
 
-.blog-post h1 {
-  font-size: var(--fs-fluid-h1);
-  margin-bottom: var(--spacing-xl);
-}
+/* Typography: Headings (Sanity blog) */
 
 .blog-post h2 {
   font-size: var(--fs-fluid-h2);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xl);
 }
 
 .blog-post h3 {
   font-size: var(--fs-fluid-h3);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
 .blog-post h4,
@@ -87,14 +81,116 @@ h6 {
   margin-bottom: var(--spacing-sm);
 }
 
-.blog-post p {
-  margin-bottom: var(--spacing-md); /* Consistent spacing between paragraphs */
+/* Typography: Headings (end) */
+
+.blog-post {
+  margin-bottom: var(--spacing-xxl); /* Vertical space between sections */
 }
 
-.blog-post section {
-  margin-bottom: var(--spacing-lg); /* Vertical space between sections */
+.blog-post__content > *:not(:last-child) {
+  margin-bottom: var(--spacing-lg);
 }
-/* Typography: Headings (end) */
+
+.blog-post__content > :last-child {
+  margin-bottom: var(--spacing-lg);
+}
+
+.blog-post img {
+  border-radius: var(--border-radius);
+}
+
+.blog-post .quote {
+  display: inline-block;
+  position: relative;
+  padding: 1.25rem 2.5rem; /* Space for the quote and the SVG */
+  margin-bottom: 1.875rem;
+}
+
+.blog-post .quote__text {
+  font-style: italic;
+  text-wrap: balance;
+  font-weight: var(--fw-light);
+}
+
+.blog-post .quote__author {
+  margin-top: var(--spacing-xs);
+  text-align: end;
+}
+
+.blog-post ul,
+.blog-post ol {
+  padding-left: var(--spacing-md); /* unify left space */
+}
+
+.blog-post ul li,
+.blog-post ol li {
+  position: relative;
+  padding-left: var(--spacing-lg); /* spacing between marker and text */
+  margin-bottom: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
+}
+
+.blog-post ul li:last-child,
+.blog-post ol li:last-child {
+  margin-bottom: var(--spacing-md);
+}
+
+.blog-post ul li::before {
+  content: "•"; /* custom bullet */
+  position: absolute;
+  left: 0;
+  color: var(--clr-primary);
+}
+
+.blog-post figcaption {
+  margin-top: var(--spacing-sm);
+}
+
+/* ✅ OL - Custom counter */
+.blog-post ol {
+  list-style: none;
+  counter-reset: healing;
+}
+
+.blog-post ol li::before {
+  counter-increment: healing;
+  content: counter(healing) ".";
+  position: absolute;
+  left: 0;
+  color: var(--clr-primary);
+  font-weight: bold;
+}
+
+.blog-post .quote::before {
+  content: " ";
+  position: absolute;
+  top: 0;
+  left: 10px; /* Positioning of the quote mark */
+  width: 2.5rem; /* Adjust size of SVG */
+  height: 2.5rem; /* Adjust size of SVG */
+  background: url("/quote-icon.svg") no-repeat center center;
+  background-size: contain; /* Make the background fit */
+}
+
+.blog-post a,
+.blog-post a:visited {
+  color: var(--clr-primary);
+  border-bottom: var(--border) var(--clr-primary);
+}
+
+.blog-post__content > p:first-of-type::first-letter {
+  color: var(--clr-primary);
+  float: left;
+  font-family: "Playfair", serif;
+  font-size: 72px;
+  line-height: 60px;
+  padding-right: var(--spacing-xxs);
+}
+
+.blog-post__content > p:first-of-type {
+  min-height: var(--spacing-xl);
+  overflow: hidden; /* contains the float */
+}
 
 h1,
 h2,
@@ -106,11 +202,8 @@ b {
 
 button {
   all: unset;
-
   cursor: pointer;
 }
-
-/* global spacing */
 
 a,
 a:visited {
@@ -119,29 +212,10 @@ a:visited {
   display: inline-block; /* enables padding, margin, etc. */
 }
 
-/* a:hover,
-a:focus {
-  text-decoration: underline; 
-} */
-
 a::after,
 a::before {
   text-decoration: none;
 }
-
-/* Global Paragraph */
-/* p {
-  margin-bottom: var(--spacing-md);
-}
-
-
-h1, h2, h3, h4 {
-  margin-bottom: var(--spacing-sm);
-}
-
-section {
-  padding: var(--spacing-xl) var(--spacing-md);
-} */
 
 /* variables */
 :root {
@@ -151,6 +225,7 @@ section {
   --clr-accent: #f2926e;
   --clr-accent-2: #f4cba4;
   --clr-accent-3: #dcd4e8;
+  --clr-accent-4: #e7c1b3;
 
   /* Neutral Colors */
   --clr-neutral-light: #f2f6f3;
@@ -158,7 +233,7 @@ section {
   --clr-neutral-dark: #141414;
 
   /* Background and text colors */
-  --background-color: var(--clr-neutral-light);
+  --background-color: var(--clr-neutral-light-2);
   --text-color: var(--clr-neutral-dark);
 
   /* font */
@@ -178,11 +253,10 @@ section {
   --spacing-xxl: 4rem; /* 64px */
   --spacing-xxxl: 5rem; /* 80px */
 
-  /* todo ad breathing room */
-  /* go to dropbox */
-
   /* wrapper width */
-  --wrapper-width: min(88%, 88rem); /* max width of the wrapper */
+  --min: 88%;
+  --wrapper-width: min(var(--min), 72rem); /* max width of the wrapper */
+  --wrapper-blog: min(var(--min), 45rem);
 
   /* Font Sizes */
   --fs-xs: 0.875rem; /* 14px - small labels, meta info */
@@ -208,6 +282,5 @@ section {
   --border-radius: var(--spacing-xxxs);
   --border: 1px solid;
   --letter-spacing: 0.1em;
-  --box-shadow:
-    rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05) /* blog component grid */;
 }

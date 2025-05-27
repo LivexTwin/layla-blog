@@ -26,4 +26,13 @@ export default defineConfig({
     }),
     react(),
   ],
+  vite: {
+    server: {
+      host: true, // allow external access (e.g. via ngrok or local IP)
+      strictPort: false,
+      port: 4321, // optional: make sure the dev server sticks to this port
+      allowedHosts: ["thin-ducks-slide.loca.lt"],
+    },
+  },
+  site: "https://healingwithlayla.com",
 });

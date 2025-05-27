@@ -1,42 +1,97 @@
 ---
-//./src/components/CategoryFilterList.astro
+import ClearFilter from "./ClearFilter.astro";
+
 const { categories, categorySlug } = Astro.props;
+const isAnyCategoryActive = categories.some(
+  (category) => categorySlug === category.slug
+);
 ---
 
 <nav aria-label="Blog categories">
-  <ul class="category-filter-list">
-    {
-      categories.map((category) => {
-        const isActive = categorySlug === category.slug;
-        const href = isActive ? "/blog" : `/blog/category/${category.slug}`;
+  <div class="category-filter__container">
+    <h2 class="category-filter__heading">Filter by Category</h2>
 
-        return (
-          <li>
-            <a
-              href={href}
-              class={isActive ? "active" : ""}
-              aria-current={isActive ? "true" : "false"}
-            >
-              {category.title}
-            </a>
-          </li>
-        );
-      })
-    }
-  </ul>
+    <ul class={`category-filter${isAnyCategoryActive ? " has-active" : ""} `}>
+      {
+        categories.map((category, index) => {
+          const isActive = categorySlug === category.slug;
+          const href = isActive ? "/blog" : `/blog/category/${category.slug}`;
+          const tagClass = `tag-${(index % 5) + 1}`;
+
+          return (
+            <li class="category-filter__list">
+              <a
+                href={href}
+                class={`${tagClass} ${isActive ? "active" : ""}`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {category.title}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    {isAnyCategoryActive && <ClearFilter />}
+  </div>
 </nav>
 
 <style>
-  .active {
-    font-weight: bold;
-    color: black;
-    border: 2px solid hsl(208, 48%, 6%);
-    box-shadow: 3px 3px #081017;
-    width: 10px;
-    border-radius: 4px;
-    padding-block: 0.5rem;
-    text-decoration: none;
-    padding-inline: 1rem;
-    background-color: rgb(248, 243, 243); /* Example active color */
+  .category-filter__container {
+    margin-bottom: var(--spacing-xxl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
+  .category-filter__heading {
+    font-size: var(--fs-fluid-h3);
+    margin-bottom: var(--spacing-md);
+    line-height: var(--lh-tight);
+  }
+
+  .category-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-inline: var(--spacing-xs);
+    gap: var(--spacing-xxs);
+    max-width: 25rem;
+  }
+
+  .category-filter__list a {
+    border-radius: var(--border-radius);
+    padding: var(--spacing-xxxs) var(--spacing-xxs);
+    font-size: var(--fs-xs);
+    text-transform: lowercase;
+    transition: opacity 0.3s ease;
+  }
+
+  /* When a category is active, keep full opacity */
+  .category-filter.has-active .category-filter__list a.active {
+    opacity: 1;
+  }
+
+  /* When no category is active, all categories should have low opacity */
+  .category-filter.has-active .category-filter__list a {
+    opacity: 0.3;
+  }
+
+  .tag-1 {
+    background-color: var(--clr-secondary);
+  }
+  .tag-2 {
+    background-color: var(--clr-accent);
+  }
+  .tag-3 {
+    background-color: var(--clr-accent-2);
+  }
+  .tag-4 {
+    background-color: var(--clr-accent-3);
+  }
+  .tag-5 {
+    background-color: var(--clr-accent-4);
+  }
+
+  /* mq */
 </style>
