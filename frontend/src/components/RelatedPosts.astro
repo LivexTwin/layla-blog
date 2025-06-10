@@ -1,9 +1,9 @@
 ---
 // components/RelatedPosts.astro
 import PostCard from "./PostCard.astro";
+import PostListGrid from "./PostListGrid.astro";
 
 const { relatedPosts } = Astro.props;
-console.log(relatedPosts);
 ---
 
 {
@@ -11,22 +11,18 @@ console.log(relatedPosts);
   relatedPosts && relatedPosts.length > 0 && (
     <section class="related-posts wrapper">
       <h2>Related Posts</h2>
-      <ul class="related-posts__list">
+      <PostListGrid>
         {relatedPosts.map((post) => (
-          <li key={post._id}>
+          <li>
             <PostCard post={post} />
           </li>
         ))}
-      </ul>
+      </PostListGrid>
     </section>
   )
 }
 
 <style>
-  .related-posts {
-    margin-bottom: var(--spacing-xxl);
-  }
-
   .related-posts h2 {
     font-size: var(--fs-fluid-h2);
     margin-bottom: var(--spacing-lg);

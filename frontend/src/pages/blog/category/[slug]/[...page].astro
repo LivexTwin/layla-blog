@@ -1,9 +1,9 @@
 ---
-import BlogLayout from "../../../../components/BlogLayout.astro";
-import Pagination from "../../../../components/Pagination.astro";
+import { SEO } from "astro-seo";
+import BlogLayout from "@/components/BlogLayout.astro";
 
-import { getBlogIndexData } from "../../../../utils/getBlogIndexData";
-import { getCategorySlugs } from "../../../../utils/sanityQueries";
+import { getBlogIndexData } from "@/utils/getBlogIndexData";
+import { getCategorySlugs } from "@/utils/sanityQueries";
 
 // 1. Create static paths for each category with pagination
 export async function getStaticPaths({ paginate }) {
@@ -14,7 +14,7 @@ export async function getStaticPaths({ paginate }) {
   for (const { slug } of slugs) {
     const { posts } = await getBlogIndexData({ slug });
     const paginated = paginate(posts, {
-      pageSize: 1, // 👈 change if you want more per page
+      pageSize: 9, // 👈 change if you want more per page
       params: { slug }, // 👈 pass slug into params
     });
 
@@ -28,9 +28,21 @@ export async function getStaticPaths({ paginate }) {
 const { slug } = Astro.params;
 const { page } = Astro.props;
 
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
+const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+
 // 3. Get category-specific data
 const { categories } = await getBlogIndexData({}); // all categories
+
+// Find the current category by slug
+const category = categories.find((cat: string) => cat.slug === slug);
+
+// Prepare SEO fields for category page
+const seoTitle = category?.title ?? "Blog Category";
+const seoDescription = category?.description ?? "Articles under this category";
 ---
+
+<SEO title={seoTitle} description={seoDescription} canonical={canonicalUrl} />
 
 <BlogLayout
   posts={page.data}
@@ -41,5 +53,3 @@ const { categories } = await getBlogIndexData({}); // all categories
   currentPage={page.currentPage}
   lastPage={page.lastPage}
 />
-
-<!-- <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} /> -->

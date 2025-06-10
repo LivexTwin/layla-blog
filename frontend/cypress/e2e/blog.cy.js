@@ -1,24 +1,23 @@
 // /cypress/e2e/blog.cy.js
 describe("Blog post page loads with Sanity content", () => {
-  const slug = "hello-world"; // replace with your actual test slug
+  const slug = "blog-post-2"; // replace with your actual test slug
 
   it("renders blog page with correct title and heading", () => {
     cy.visit(`/blog/${slug}`);
 
     // Check that the h1 heading matches what Sanity returned
-    cy.get("h1").should("contain.text", "Hello World"); // match your actual post title
+    cy.get("h1").should("contain.text", "Blog Post 2"); // match your actual post title
   });
 });
 
 describe("Blog category filtering works", () => {
   it("filters posts by selected category", () => {
-    // Navigate to the filtered category
-    cy.visit("/blog/category/a-category-test"); // Adjust the URL to match your test category
+    cy.visit("/blog/category/a-category-test");
 
-    // Verify the page shows posts only from the selected category
-    cy.get("article").should("have.length", 2); // Adjust based on expected number of posts
+    // Ensure at least one post is shown
+    cy.get("article").should("have.length.greaterThan", 0);
 
-    // Verify all posts are displayed again
-    cy.get("article").should("have.length", 2); // Adjust based on total posts
+    // Adjust this to match an actual post title from your data (not 'Expected Post Title')
+    cy.get("article").first().should("contain.text", "Blog Post 10"); // example real title
   });
 });

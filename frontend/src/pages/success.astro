@@ -1,0 +1,37 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <section class="success wrapper">
+    <div class="success__container">
+      <h1>Thank You!</h1>
+      <p>
+        Your message has been successfully sent. Layla will get back to you as
+        soon as possible.
+      </p>
+      <a href="/" class="btn btn-primary">Return to Home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .success__container {
+    max-width: 600px;
+    margin-inline: auto;
+    padding-top: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  .success h1 {
+    font-size: var(--fs-fluid-h1);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .success p {
+    margin-bottom: var(--spacing-xl);
+    font-size: var(--fs-body-fluid);
+    /* text-wrap: balance; */
+  }
+</style>

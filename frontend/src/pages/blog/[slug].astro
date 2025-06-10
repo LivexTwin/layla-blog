@@ -1,14 +1,17 @@
 ---
 // ./src/pages/blog/[slug].astro
-import Layout from "../../layouts/Layout.astro";
-import PostDetail from "../../components/PostDetail.astro";
-import RelatedPosts from "../../components/RelatedPosts.astro";
+import { SEO } from "astro-seo";
+
+import Layout from "@/layouts/Layout.astro";
+import PostDetail from "@/components/PostDetail.astro";
+import RelatedPosts from "@/components/RelatedPosts.astro";
+import BlogSearchHero from "@/components/BlogSearchHero.astro";
 import {
   getPostBySlug,
   getAllPosts,
   getRelatedPosts,
-} from "../../utils/sanityQueries"; // Import the new helper function
-import SanityPostPreview from "../../components/sanity/SanityPostPreview.astro";
+} from "@/utils/sanityQueries";
+import SanityPostNav from "@/components/sanity/SanityPostNav.astro";
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(); // Use the function from sanityQueries.ts to fetch all posts
@@ -26,23 +29,46 @@ if (!post) throw new Error("Post not found");
 
 // Fetch the related posts for the current post
 const relatedPosts = await getRelatedPosts(slug);
+// Use the environment variable for base site URL
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
+const canonicalUrl = `${SITE_URL}/blog/${slug}`;
 ---
+
+<SEO
+  title={post.title}
+  description={post.description ?? post.excerpt}
+  canonical={canonicalUrl}
+  openGraph={{
+    basic: {
+      title: post.title,
+      type: "article",
+      image: post.mainImage?.asset?.url,
+      url: canonicalUrl,
+    },
+    optional: {
+      description: post.description,
+      siteName: "Your Site Name",
+      locale: "en_US",
+    },
+  }}
+  twitter={{
+    title: post.title,
+    description: post.description ?? post.excerpt,
+    image: post.mainImage?.asset?.url,
+    card: "summary_large_image",
+  }}
+/>
 
 <Layout>
   <div class="blog-post__container">
     <PostDetail post={post} relatedPosts={relatedPosts} />
     <RelatedPosts relatedPosts={relatedPosts} />
-
-    <!-- {
-      nextPost && (
-        <SanityPostPreview
-          image={nextPost.mainImage}
-          slug={nextPost.slug}
-          altText={nextPost.title}
-          title={nextPost.title}
-        />
-      )
-    } -->
+    <SanityPostNav publishedAt={post.publishedAt} />
+    <!-- todo style this make it centered -->
+    <div class="blog-post__search">
+      <BlogSearchHero />
+    </div>
   </div>
 </Layout>
 
@@ -50,5 +76,10 @@ const relatedPosts = await getRelatedPosts(slug);
   .blog-post__container {
     background-color: var(--clr-neutral-light);
     height: 100%;
+  }
+
+  .blog-post__search {
+    text-align: center;
+    margin-top: var(--spacing-xl);
   }
 </style>

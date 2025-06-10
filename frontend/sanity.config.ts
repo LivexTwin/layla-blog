@@ -6,14 +6,17 @@ import { presentationTool } from "sanity/presentation";
 import { resolve } from "./src/sanity/lib/resolve";
 import { myStructure } from "./src/sanity/lib/structure";
 import { visionTool } from "@sanity/vision";
-import { laylaDarkTheme } from "./src/sanity/theme";
+const { theme } = (await import(
+  // @ts-expect-error -- TODO setup themer.d.ts to get correct typings
+  "https://themer.sanity.build/api/hues?preset=verdant&default=a8bdb3"
+)) as { theme: import("sanity").StudioTheme };
 
 export default defineConfig({
   projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID,
   dataset: import.meta.env.PUBLIC_SANITY_DATASET,
   name: "layla-blog",
   title: "Layla’s Blog Studio",
-  theme: laylaDarkTheme,
+  theme: theme,
   plugins: [
     structureTool({ structure: myStructure }),
     presentationTool({

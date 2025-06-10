@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Page Not Found - 404">
+  <section
+    style="
+      text-align: center; 
+      padding: var(--spacing-xxl) var(--spacing-md);
+
+    "
+  >
+    <h1
+      style="
+        font-size: var(--fs-fluid-h1);
+        line-height: var(--lh-tight);
+        margin-bottom: var(--spacing-md);
+      "
+    >
+      404 - Page Not Found
+    </h1>
+    <p
+      style="
+        font-size: var(--fs-sm);
+        margin-bottom: var(--spacing-xxl);
+        color: var(--text-color-light);
+      "
+    >
+      Oops! The page you’re looking for doesn’t exist.
+    </p>
+    <a href="/" class="btn btn-primary"> Go back home </a>
+  </section>
+</Layout>

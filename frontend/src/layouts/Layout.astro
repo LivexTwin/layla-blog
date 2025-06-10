@@ -1,13 +1,25 @@
 ---
 // ./src/layouts/Layout.astro
+
+import { SEO } from "astro-seo";
 import { VisualEditing } from "@sanity/astro/visual-editing";
 import "../styles/style.css";
 import "../styles/main.css";
 import TheNavigation from "../components/TheNavigation.astro";
 import Logo from "../components/Logo.astro";
+import LogoLg from "../components/LogoLg.astro";
 import TheFooter from "../components/TheFooter.astro";
 
-const { showLogo = true } = Astro.props;
+const {
+  showLogo = true,
+  pageTitle = "Healing with Layla – Therapy Blog for Mind & Well-being",
+  pageDescription = "Explore articles, tips, and insights about therapy, mental health, and emotional well-being.",
+  canonicalPath = "/",
+  openGraphImage = "/default-og-image.jpg",
+} = Astro.props;
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
+const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
 const visualEditingEnabled =
   import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
@@ -17,19 +29,60 @@ const visualEditingEnabled =
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!-- <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro Basics</title>
+
+    <SEO
+      title={pageTitle}
+      description={pageDescription}
+      canonical={canonicalUrl}
+      openGraph={{
+        basic: {
+          title: pageTitle,
+          type: "website", // or "article" depending on your content type
+          image: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+          url: canonicalUrl,
+        },
+        optional: {
+          description: pageDescription, // optional field
+        },
+        image: {
+          url: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+          width: 1200,
+          height: 630,
+          alt: "Open Graph Image", // optional alt text for accessibility
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        title: pageTitle,
+        description: pageDescription,
+        image: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+      }}
+    />
   </head>
   <body>
     <div id="site">
       <header class="site__header">
-        {showLogo && <Logo class="logo-size" />}
-        <div class="spacer logo-size"></div>
-        <TheNavigation />
+        <div class="site__header--inner">
+          {
+            showLogo && (
+              <>
+                <div class="logo logo--mobile">
+                  <Logo class="logo__size" />
+                </div>
+                <div class="logo logo--desktop">
+                  <LogoLg class="logo__size--lg" />
+                </div>
+              </>
+            )
+          }
+          <div class="spacer logo-size"></div>
+          <TheNavigation />
+        </div>
       </header>
       <main>
         <slot />

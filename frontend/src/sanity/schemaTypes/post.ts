@@ -38,8 +38,11 @@ export const postType = defineType({
       type: "image",
       options: {
         hotspot: true,
-        metadata: ["lqip"],
+        // metadata: ["lqip"],
+        metadata: ["lqip", "palette", "blurhash"],
       },
+      validation: (Rule) =>
+        Rule.required().error("Main image is required for every post."),
       fields: [
         {
           name: "alt",
@@ -75,6 +78,24 @@ export const postType = defineType({
       title: "Published At",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "excerpt",
+      type: "text",
+      rows: 3,
+      description:
+        "A short summary of the post, used for SEO and social media previews.",
+      validation: (Rule) =>
+        Rule.max(160).warning("Keep it under 160 characters for best SEO."),
+    }),
+    {
+      name: "description",
+      type: "text",
+      title: "SEO Description",
+      description: "This will be used for SEO meta tags and search engines.",
+      validation: (Rule) =>
+        Rule.max(160).warning("Try to keep it under 160 characters"),
+    },
+
     defineField({
       name: "body",
       type: "blockContent",

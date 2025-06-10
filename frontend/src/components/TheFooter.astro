@@ -1,33 +1,100 @@
+---
+import Icon from "./Icon.astro"; // Only keep if using for icons elsewhere
+---
+
 <footer class="footer">
-  <div class="footer__content">
-    <div class="footer__branding">
-      <!-- <Logo class="footer__logo" /> -->
-      <span class="footer__tagline">Your journey to stillness begins here.</span
-      >
+  <div class="footer__container">
+    <!-- Footer content: Sections for links, contact, etc. -->
+    <div class="footer__sections">
+      <div class="footer__section">
+        <h2>Quick Links</h2>
+        <ul>
+          <li><a href="/contact">Contact</a></li>
+          <li><a href="/">Home</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/search">Search Blog</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__section">
+        <h2>Contact</h2>
+        <p>
+          Email: <a href="mailto:contact@example.com"
+            >contact@healingwithlayla.com</a
+          >
+        </p>
+      </div>
     </div>
-    <div class="footer__links">
-      <ul>
-        <li><a href="/about">About</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/contact">Contact</a></li>
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-      </ul>
-    </div>
-    <div class="footer__contact">
+
+    <!-- Optional: Footer Bottom with copyright -->
+    <div class="footer__bottom">
       <p>
-        Contact us: <a href="mailto:contact@yourdomain.com"
-          >contact@yourdomain.com</a
-        >
+        &copy; {new Date().getFullYear()} All Rights Reserved.
       </p>
     </div>
-  </div>
-  <div class="footer__legal">
-    <p>&copy; 2025 Your Therapy Blog. All rights reserved.</p>
   </div>
 </footer>
 
 <style>
+  /* Footer Layout */
   .footer {
-    background-color: var(--clr-neutral-light);
+    background-color: var(
+      --clr-neutral-light
+    ); /* Use background color variable */
+    padding: var(--spacing-xxl) var(--spacing-sm);
+    font-size: var(--fs-sm);
+    color: var(--clr-text-light); /* Use text color variable */
+  }
+
+  .footer__container {
+    max-width: var(--wrapper-width);
+    margin-inline: auto;
+  }
+
+  /* Mobile-first layout */
+  .footer__sections {
+    display: grid;
+    grid-template-columns: 1fr; /* Stack on mobile */
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .footer__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer__section h2 {
+    font-size: var(--fs-md);
+    margin-bottom: var(--spacing-sm);
+    font-weight: var(--fw-bold);
+    color: var(--clr-primary); /* Use primary color for headings */
+  }
+
+  .footer__section a {
+    color: var(--clr-primary); /* Links in the footer with primary color */
+    text-decoration: none;
+    transition: color var(--transition-duration);
+  }
+
+  .footer__section ul {
+    letter-spacing: var(--letter-spacing);
+  }
+
+  .footer__section a:hover {
+    color: var(--clr-secondary); /* Accent color on hover */
+  }
+
+  .footer__bottom {
+    text-align: center;
+    font-size: var(--fs-xs);
+    color: var(--clr-neutral-dark); /* Muted text for copyright */
+  }
+
+  /* Responsive: For larger screens (e.g., tablets, desktops), organize footer links in multiple columns */
+  @media (min-width: 768px) {
+    .footer__sections {
+      grid-template-columns: 1fr 1fr; /* 2 columns on larger screens */
+    }
   }
 </style>

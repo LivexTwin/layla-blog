@@ -6,10 +6,24 @@ const postPreviewFields = `
   title,
   slug,
   publishedAt,
-  mainImage {
-    asset,
-    alt
+    excerpt,
+    description,
+mainImage {
+  asset->{
+    _id,
+    url,
+    metadata {
+      dimensions {
+        width,
+        height,
+        aspectRatio
+      },
+
+    }
   },
+  alt
+},
+
   category-> {
     _id,
     title,
@@ -57,6 +71,22 @@ export const postQuery = `
       }
     }
   }
+}
+`;
+
+// For next post (published after current)
+export const nextPostQuery = `
+*[_type == "post" && publishedAt > $publishedAt] | order(publishedAt asc)[0] {
+  title,
+  slug
+}
+`;
+
+// For previous post (published before current)
+export const prevPostQuery = `
+*[_type == "post" && publishedAt < $publishedAt] | order(publishedAt desc)[0] {
+  title,
+  slug
 }
 `;
 

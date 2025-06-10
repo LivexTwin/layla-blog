@@ -1,3 +1,4 @@
+// ./sanity/lib/get-image-dimensions
 export function getImageDimensions(image) {
   if (!image?.asset?._ref) {
     return;

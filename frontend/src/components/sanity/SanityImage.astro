@@ -1,24 +1,27 @@
 ---
-import getImageProps from "../../sanity/lib/get-image-props";
+import getImageProps from "@/sanity/lib/get-image-props";
 
-const { class: className, ...rest } = Astro.props;
+const {
+  class: className,
+  image,
+  maxWidth = 600,
+  loading = "lazy",
+  ...rest
+} = Astro.props;
 
-const { image, maxWidth = 600, loading = "lazy" } = Astro.props;
-
-if (!image || !image.asset) {
+if (import.meta.env.DEV && (!image || !image.asset)) {
   console.warn("SanityImage: No image data passed:", image);
 }
+
 const { src, srcset, sizes, width, height } = getImageProps({
   image,
   maxWidth,
 });
-
-const fetchpriority = loading === "eager" ? "high" : undefined;
 ---
 
 <img
   loading={loading}
-  fetchpriority={fetchpriority}
+  fetchpriority={loading === "eager" ? "high" : undefined}
   alt={image?.alt || ""}
   src={src}
   srcset={srcset}

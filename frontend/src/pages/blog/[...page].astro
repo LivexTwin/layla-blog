@@ -1,24 +1,47 @@
 ---
 // .src/pages/blog/[...page].astro
-import BlogLayout from "../../components/BlogLayout.astro";
+import { SEO } from "astro-seo";
 
-import { getBlogIndexData } from "../../utils/getBlogIndexData";
+import BlogLayout from "@/components/BlogLayout.astro";
+
+import { getBlogIndexData } from "@/utils/getBlogIndexData";
 
 export async function getStaticPaths({ paginate }) {
   const { posts } = await getBlogIndexData({});
 
   return paginate(posts, {
-    pageSize: 6, // 👈 change if you want more per page
+    pageSize: 9, // 👈 change if you want more per page
   });
 }
 
 const { page } = Astro.props;
-console.log(page);
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
 
 // fetch all posts, all categories
 // and pass them to the BlogLayout component
 const { categories } = await getBlogIndexData({});
+
+const seo = {
+  title: "Blog - Healing with Layla",
+  description: "Read the latest therapy tips and posts.",
+  canonical: `${SITE_URL}/blog`,
+  openGraph: {
+    basic: {
+      title: "Blog - Healing with Layla",
+      type: "website",
+      image: `${SITE_URL}/blog-og-image.jpg`,
+      url: `${SITE_URL}/blog`,
+    },
+  },
+  twitter: {
+    cardType: "summary_large_image",
+    site: "@yourtwitterhandle",
+  },
+};
 ---
+
+<SEO {...seo} />
 
 <BlogLayout
   posts={page.data}

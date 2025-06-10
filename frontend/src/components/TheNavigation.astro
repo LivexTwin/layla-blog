@@ -1,65 +1,130 @@
 ---
 import MenuAnimation from "./MenuAnimation";
+import Icon from "./Icon.astro";
 ---
 
 <!-- TheNavigation.astro -->
-<nav class="menu">
+<nav class="menu" aria-label="Main navigation">
   <button
-    class="menu__toggle btn"
+    class="btn menu__toggle"
     aria-expanded="false"
-    aria-controls="menu-list">Menu</button
+    aria-controls="menu-list"
   >
+    <span class="menu__label menu__label--menu">
+      Menu
+      <Icon
+        name="menu"
+        title="Open menu"
+        color="var(--clr-primary)"
+        size={24}
+        class="menu__icon"
+      />
+    </span>
+    <span class="menu__label menu__label--close hidden">
+      Close
+      <Icon
+        name="close"
+        title="Close menu"
+        color="var(--clr-primary)"
+        size={24}
+        class="menu__icon"
+      />
+    </span>
+  </button>
 
-  <ul class="menu__list">
-    <div class="menu__inner">
+  <div class="menu__wrapper" id="menu-wrapper">
+    <ul class="menu__list" id="menu-list">
       <li class="menu__item"><a href="/" class="menu__link">Home</a></li>
 
-      <li class="menu__item"><a href="#" class="menu__link">About</a></li>
-
       <li class="menu__item"><a href="/blog" class="menu__link">Blog</a></li>
-
-      <li class="menu__item"><a href="#" class="menu__link">Contact</a></li>
-    </div>
-  </ul>
+      <li class="menu__item">
+        <a href="/contact" class="menu__link">Contact</a>
+      </li>
+    </ul>
+  </div>
 </nav>
-
 <MenuAnimation client:load />
 
 <style>
   .menu__toggle {
     color: var(--clr-primary);
-    width: 6ch;
-    padding: var(--spacing-xxxs) var(--spacing-xs);
+    padding-block: var(--spacing-xxxs);
+    padding-left: var(--spacing-xxs);
     border: var(--border) var(--clr-secondary);
-    text-align: center;
+    border-radius: var(--border-radius);
+    background: transparent;
+    cursor: pointer;
   }
 
-  .menu__list {
+  .menu__label {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Initially hidden state */
+  .hidden {
+    display: none;
+  }
+
+  .menu__icon {
+    margin-bottom: -2.5px; /* Adjust icon position */
+  }
+
+  .menu__wrapper {
+    overflow: hidden;
+    height: 0;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     background: var(--clr-neutral-light);
-    overflow: hidden;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
-    height: 0;
     box-shadow: var(--box-shadow);
     z-index: 10;
   }
 
-  .menu__inner {
+  .menu__list {
     padding-top: var(--spacing-xxs);
     padding-bottom: var(--spacing-md);
     padding-left: var(--spacing-lg);
-  }
-
-  .menu__item:not(:last-child) {
-    margin-bottom: var(--spacing-lg);
   }
 
   .menu__link {
     font-weight: var(--fw-bold);
     color: var(--clr-primary);
     letter-spacing: var(--letter-spacing);
+  }
+
+  /* mq responsive menu  */
+  @media (width > 768px) {
+    .menu__toggle {
+      display: none;
+    }
+
+    .menu__wrapper {
+      all: unset; /* resets height, position, overflow, etc. */
+    }
+
+    .menu__list {
+      display: flex;
+      flex-direction: row;
+      gap: var(--spacing-md);
+      padding: 0;
+    }
+
+    .menu__item {
+      margin-bottom: 0; /* reset margin for inline layout */
+    }
+
+    .menu__item a:hover {
+      color: var(--clr-secondary);
+      transition: all var(--transition-duration);
+    }
+  }
+
+  @media (width < 768px) {
+    .menu__item:not(:last-child) {
+      margin-bottom: var(--spacing-lg);
+    }
   }
 </style>

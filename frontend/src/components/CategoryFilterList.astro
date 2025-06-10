@@ -1,7 +1,7 @@
 ---
 import ClearFilter from "./ClearFilter.astro";
 
-const { categories, categorySlug } = Astro.props;
+const { categories, categorySlug, heading } = Astro.props;
 const isAnyCategoryActive = categories.some(
   (category) => categorySlug === category.slug
 );
@@ -9,7 +9,7 @@ const isAnyCategoryActive = categories.some(
 
 <nav aria-label="Blog categories">
   <div class="category-filter__container">
-    <h2 class="category-filter__heading">Filter by Category</h2>
+    <h2 class="category-filter__heading">{heading}</h2>
 
     <ul class={`category-filter${isAnyCategoryActive ? " has-active" : ""} `}>
       {
@@ -38,7 +38,8 @@ const isAnyCategoryActive = categories.some(
 
 <style>
   .category-filter__container {
-    margin-bottom: var(--spacing-xxl);
+    padding-block: var(--spacing-md);
+    background-color: var(--clr-neutral-light);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,7 +55,7 @@ const isAnyCategoryActive = categories.some(
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-inline: var(--spacing-xs);
+    padding-inline: var(--spacing-sm);
     gap: var(--spacing-xxs);
     max-width: 25rem;
   }
@@ -64,7 +65,16 @@ const isAnyCategoryActive = categories.some(
     padding: var(--spacing-xxxs) var(--spacing-xxs);
     font-size: var(--fs-xs);
     text-transform: lowercase;
-    transition: opacity 0.3s ease;
+    transition: opacity var(--transition-duration);
+  }
+
+  .category-filter__list a:hover {
+    opacity: var(--opacity);
+  }
+
+  .category-filter__list a:focus-visible {
+    opacity: 0.5;
+    font-weight: var(--fw-bold);
   }
 
   /* When a category is active, keep full opacity */
@@ -74,7 +84,10 @@ const isAnyCategoryActive = categories.some(
 
   /* When no category is active, all categories should have low opacity */
   .category-filter.has-active .category-filter__list a {
-    opacity: 0.3;
+    opacity: var(--opacity);
+  }
+  .category-filter.has-active .category-filter__list a:focus-visible {
+    opacity: 1;
   }
 
   .tag-1 {

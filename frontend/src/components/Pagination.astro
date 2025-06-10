@@ -4,29 +4,22 @@ import Link from "./Link.astro";
 import Icon from "./Icon.astro";
 
 const { prevUrl, nextUrl, currentPage } = Astro.props;
-const arrowColor = "var(--clr-neutral-dark)";
 ---
 
 {
   (prevUrl || nextUrl) && (
-    <nav aria-label="Pagination for blog posts" class="pagination">
+    <nav aria-label="Pagination for blog posts " class="pagination wrapper">
       {prevUrl && (
         <Link href={prevUrl} class="pagination__link">
-          <Icon
-            class="rotate"
-            name="arrow"
-            size={24}
-            title="Go back"
-            color={arrowColor}
-          />
+          <Icon name="arrow" size={12} title="Go back" class="icon--rotate" />
           <span>Go back</span>
         </Link>
       )}
-
+      <div class="pagination__spacer" />
       {nextUrl && (
         <Link href={nextUrl} class="pagination__link pagination__link--next">
           <span>Page {currentPage + 1}</span>
-          <Icon name="arrow" size={24} title="Next" color={arrowColor} />
+          <Icon name="arrow" size={12} title="Next" />
         </Link>
       )}
     </nav>
@@ -36,6 +29,7 @@ const arrowColor = "var(--clr-neutral-dark)";
 <style>
   .pagination {
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
     gap: var(--spacing-sm);
@@ -44,13 +38,6 @@ const arrowColor = "var(--clr-neutral-dark)";
     font-size: var(--fs-xs);
   }
 
-  .rotate {
-    transform: rotate(180deg);
-  }
-
-  .pagination__link {
-    margin-left: 0;
-  }
   .sr-only {
     position: absolute;
     width: 1px;

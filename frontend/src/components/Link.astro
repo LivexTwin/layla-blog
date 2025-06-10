@@ -1,18 +1,18 @@
 ---
-// Accept slot and fallback to text prop
-const { href, text = "" } = Astro.props;
+// Link.astro
+const { href, class: className = "" } = Astro.props;
 ---
 
-<a href={href} class="link btn-secondary">
-  <slot>{text}</slot>
+<a href={href} class={`link ${className}`}>
+  <slot />
 </a>
 
 <style>
   .link {
-    display: flex;
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-xxxs) var(--spacing-xs);
-    gap: var(--spacing-xs);
+    gap: var(--spacing-xxs);
+    font-weight: var(--fw-bold);
   }
 </style>

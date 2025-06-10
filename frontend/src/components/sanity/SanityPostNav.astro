@@ -1,0 +1,57 @@
+---
+import { getPrevPost, getNextPost } from "@/utils/sanityQueries";
+import Icon from "../Icon.astro";
+import Link from "../Link.astro";
+const { publishedAt } = Astro.props;
+
+const prevPost = await getPrevPost(publishedAt);
+
+const nextPost = await getNextPost(publishedAt);
+---
+
+<nav class="post-nav wrapper">
+  {
+    prevPost && (
+      <Link
+        href={`/blog/${prevPost.slug.current}`}
+        class="post-nav__prev"
+        aria-label={`Previous post: ${prevPost.title}`}
+      >
+        <span>
+          <Icon name="arrow" size={12} class="icon--rotate" />
+        </span>
+        Last Post
+      </Link>
+    )
+  }
+  <div class="pagination__spacer"></div>
+
+  {
+    nextPost && (
+      <Link
+        href={`/blog/${nextPost.slug.current}`}
+        class="post-nav__next"
+        aria-label={`Next post: ${nextPost.title}`}
+      >
+        Next Post
+        <span>
+          <Icon name="arrow" size={12} />
+        </span>
+      </Link>
+    )
+  }
+</nav>
+
+<style>
+  .post-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xxl);
+  }
+
+  .post-nav__prev,
+  .post-nav__next {
+    border-bottom: var(--border);
+    font-weight: var(--fw-bold);
+  }
+</style>

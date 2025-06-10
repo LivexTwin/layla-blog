@@ -1,0 +1,50 @@
+---
+// BlogSearchHero.astro
+import TheSearch from "./TheSearch.astro";
+---
+
+<div class="blog-search__hero">
+  <h2>Search More Calm Reflections</h2>
+  <p>Explore topics that nurture your mind and soul.</p>
+
+  <TheSearch />
+</div>
+<style>
+  .blog-search__hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xxs);
+    padding-bottom: var(--spacing-xxs);
+  }
+
+  .blog-search__hero h2 {
+    font-size: var(--fs-fluid-h2);
+    margin-bottom: var(--spacing-xxs);
+  }
+
+  .blog-search__hero h2::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    border-radius: var(--border-radius);
+    background-color: var(--clr-secondary);
+    margin: var(--spacing-md) auto;
+  }
+
+  .blog-search__hero p {
+    color: var(--clr-text-light);
+    font-size: var(--fs-xs);
+    text-wrap: balance;
+  }
+
+  .search-button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xxs);
+  }
+</style>

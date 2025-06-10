@@ -4,7 +4,7 @@ const {
   name,
   size = 32,
   title = "",
-  color = "var(--clr-accent)",
+  color,
   class: className,
   ...rest
 } = Astro.props;
@@ -14,6 +14,9 @@ import IconArrow from "./icons/IconArrow.astro";
 import IconCalendar from "./icons/IconCalendar.astro";
 import IconClock from "./icons/IconClock.astro";
 import IconLink from "./icons/IconLink.astro";
+import IconSearch from "./icons/IconSearch.astro";
+import IconMenu from "./icons/IconMenu.astro";
+import IconClose from "./icons/IconClose.astro";
 // ...add more as needed
 
 const icons = {
@@ -22,6 +25,9 @@ const icons = {
   calendar: IconCalendar,
   clock: IconClock,
   link: IconLink,
+  menu: IconMenu,
+  close: IconClose,
+  search: IconSearch,
 };
 
 const SelectedIcon = icons[name.toLowerCase()];

@@ -4,6 +4,7 @@ import Layout from "../layouts/Layout.astro";
 import CategoryFilterList from "./CategoryFilterList.astro";
 import PostCard from "./PostCard.astro";
 import Pagination from "./Pagination.astro";
+import TheSearch from "./TheSearch.astro";
 
 const {
   posts,
@@ -17,8 +18,8 @@ const {
 ---
 
 <Layout>
-  <section class="blog">
-    <div class="blog__header">
+  <div class="blog">
+    <header class="blog__header">
       <div class="blog__header-inner">
         <h1 class="blog__title">Blog Posts</h1>
         <p class="blog__subtitle">
@@ -26,10 +27,34 @@ const {
           >, awareness, and self-connection.
         </p>
       </div>
-    </div>
-    <CategoryFilterList categories={categories} categorySlug={categorySlug} />
-    <div class="post-list wrapper">
-      {posts.map((post) => <PostCard post={post} />)}
+    </header>
+
+    <div class="blog__layout">
+      <section class="blog__main">
+        {
+          posts.map((post, index) => (
+            <PostCard
+              class="post-card"
+              post={post}
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+          ))
+        }
+      </section>
+
+      <aside class="blog__aside">
+        <div class="category-filter">
+          <CategoryFilterList
+            categories={categories}
+            categorySlug={categorySlug}
+            heading="Filter by Category"
+            aria-label="Blog categories"
+          />
+        </div>
+        <div class="blog__search">
+          <TheSearch />
+        </div>
+      </aside>
     </div>
 
     <Pagination
@@ -38,16 +63,39 @@ const {
       currentPage={currentPage}
       lastPage={lastPage}
     />
-  </section>
+  </div>
 </Layout>
 
 <style>
   .blog {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    place-items: center;
     margin-top: var(--spacing-xl);
     margin-bottom: var(--spacing-xxl);
+  }
+
+  .blog__layout {
+    display: grid;
+    width: 100%;
+    max-width: min(97.5rem, 95%);
+  }
+
+  .blog__main {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .post-card {
+    max-width: max(32ch, min(95vw, 345px));
+  }
+
+  .blog__aside {
+    /* order: 1; */
+    order: -1;
   }
 
   .blog__header {
@@ -58,8 +106,6 @@ const {
   .blog__header-inner {
     text-align: center;
     padding: var(--spacing-xl) var(--spacing-lg);
-    max-width: 55ch;
-    margin-inline: auto;
     background: var(--clr-neutral-light);
     border-radius: var(--border-radius);
     text-wrap: balance;
@@ -71,27 +117,75 @@ const {
     line-height: var(--lh-tight);
   }
 
+  .blog__subtitle {
+    color: var(--clr-text-light);
+  }
+
   .blog__subtitle-span {
     font-weight: var(--fw-light);
     color: var(--clr-primary);
   }
 
-  /* post list */
-  .post-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    width: min(100%, var(--wrapper-width));
-    gap: var(--spacing-xxl);
+  .category-filter {
     margin-bottom: var(--spacing-xxl);
+  }
+
+  .search-button {
+    display: inline-flex;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
   }
 
   /* mq */
 
+  @media (width > 768px) {
+    .blog__layout {
+      grid-template-columns: 1fr auto;
+      justify-content: space-between;
+      margin-top: var(--spacing-xxl);
+    }
+
+    .blog__aside {
+      order: 1;
+    }
+  }
+
+  @media (width > 900px) {
+    .post-card {
+      flex: 1 1 30%;
+    }
+
+    .blog__layout {
+      gap: var(--spacing-xl);
+    }
+  }
+
+  @media (width < 768px) {
+    .blog__main {
+      order: 2;
+    }
+
+    .blog__aside {
+      display: contents; /* removes the container, keeping only children */
+    }
+
+    .blog__search {
+      order: 3;
+      text-align: center;
+    }
+  }
   @media (max-width: 768px) {
     .blog__header {
       padding-inline: var(
         --spacing-md
       ); /* Add padding for mobile phones and smaller screens */
+    }
+  }
+
+  /* misc */
+  @media (768px <= width < 1024px) {
+    .blog__layout {
+      grid-template-columns: 1.5fr 1fr;
     }
   }
 </style>

@@ -1,6 +1,6 @@
 ---
 // ./src/components/PostCard.astro
-const { post } = Astro.props; // Get the post object passed as a prop
+const { post, loading = "lazy", ...rest } = Astro.props; // Get the post object passed as a prop
 import SanityImage from "./sanity/SanityImage.astro";
 import Icon from "./Icon.astro";
 import SanityFallbackImage from "./sanity/SanityFallbackImage.astro";
@@ -8,7 +8,7 @@ import SanityFallbackImage from "./sanity/SanityFallbackImage.astro";
 const hasImage = post.mainImage && post.mainImage.asset;
 ---
 
-<article class="post-card">
+<article class="post-card" {...rest}>
   <a href={`/blog/${post.slug.current}`} class="post-card__link">
     <!-- <SanityImage
       class="post-card__image"
@@ -21,7 +21,8 @@ const hasImage = post.mainImage && post.mainImage.asset;
         <SanityImage
           class="post-card__image"
           image={{ ...post.mainImage }}
-          maxWidth={600}
+          sizes="(max-width: 600px) 100vw, 600px"
+          loading={loading}
         />
       ) : (
         <SanityFallbackImage title={post.title} />
@@ -29,7 +30,7 @@ const hasImage = post.mainImage && post.mainImage.asset;
     }
 
     <div class="post-card__content">
-      <h3>{post.title}</h3>
+      <h2 class="post-card__title">{post.title}</h2>
       <div class="post-card__action">
         <Icon name="book" title="Read article" />
         <span>Read post</span>
@@ -39,19 +40,21 @@ const hasImage = post.mainImage && post.mainImage.asset;
 </article>
 
 <style>
-  .post-card {
-    margin-inline: auto;
-  }
-
   .post-card__image {
     aspect-ratio: 1/0.5;
     object-fit: cover;
     border-radius: var(--border-radius);
   }
 
-  .post-card h3 {
+  .post-card__title {
     font-size: var(--fs-fluid-h3);
     margin-top: var(--spacing-sm);
+
+    -webkit-line-clamp: 3;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    padding-bottom: 2px;
   }
 
   .post-card__content {
@@ -62,8 +65,19 @@ const hasImage = post.mainImage && post.mainImage.asset;
   .post-card__action {
     display: flex;
     align-items: center;
-    gap: var(--spacing-xs); /* or var(--spacing-xs) */
+    gap: var(--spacing-xs);
     margin-top: var(--spacing-sm);
+    background: var(--clr-neutral-light);
+    width: max-content;
+    padding-right: var(--spacing-sm);
+    padding-block: var(--spacing-xxs);
+    border-radius: var(--border-radius);
+  }
+
+  .post-card__action:hover,
+  .post-card__action:focus {
+    color: var(--clr-secondary);
+    transition: var(--transition-duration);
   }
 
   .post-card__action span {

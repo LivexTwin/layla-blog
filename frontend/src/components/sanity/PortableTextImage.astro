@@ -3,7 +3,6 @@
 import SanityImage from "./SanityImage.astro";
 
 const { node } = Astro.props;
-console.log("PortableTextImage props:", Astro.props);
 
 const image = node.image || node;
 const caption = node.caption ?? image.caption;

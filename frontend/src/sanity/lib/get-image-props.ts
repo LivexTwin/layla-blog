@@ -21,18 +21,17 @@ export default function getImageProps({
   customWidthSteps,
   sizes,
 }) {
-  if (!image?.asset?._ref) return {};
-
-  // if (!image?.asset?._ref) {
-  //   console.warn("No valid image data found.");
-  //   return {};
-  // }
+  if (!image?.asset) return {};
 
   const maxWidth =
     typeof userMaxWidth === "number" ? userMaxWidth : LARGEST_VIEWPORT;
 
   const builderInstance = builder.image(image).fit("max").auto("format");
-  const imageDimensions = getImageDimensions(image);
+  const imageDimensions = getImageDimensions(image) || {
+    width: LARGEST_VIEWPORT,
+    height: LARGEST_VIEWPORT / 1.5,
+    aspectRatio: 1.5,
+  };
 
   const baseSizes = [
     maxWidth,
@@ -71,6 +70,7 @@ export default function getImageProps({
         : sizes || `(max-width: ${maxWidth}px) 100vw, ${maxWidth}px`,
     width: retinaSizes[0],
     height: retinaSizes[0] / imageDimensions.aspectRatio,
+    aspectRatio: imageDimensions.aspectRatio,
     lqip,
   };
 }

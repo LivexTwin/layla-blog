@@ -1,31 +1,45 @@
-// src/components/MenuAnimation.jsx
 import { useEffect } from "react";
 import gsap from "gsap";
 
 export default function MenuAnimation() {
   useEffect(() => {
     const menuToggle = document.querySelector(".menu__toggle");
-    const menuList = document.querySelector(".menu__list");
+    const menuWrapper = document.querySelector(".menu__wrapper");
     const menuItems = document.querySelectorAll(".menu__item");
+
+    const menuLabel = menuToggle.querySelector(".menu__label--menu");
+    const closeLabel = menuToggle.querySelector(".menu__label--close");
 
     let isOpen = false;
 
     const openMenu = () => {
-      menuToggle.textContent = "Close";
+      menuLabel.classList.add("hidden");
+      closeLabel.classList.remove("hidden");
+
       menuToggle.setAttribute("aria-expanded", "true");
 
-      gsap.to(menuList, {
-        height: "auto",
-        duration: 0.4,
-        onStart: () => (menuList.style.pointerEvents = "auto"),
-      });
+      const fullHeight = menuWrapper.scrollHeight;
 
-      // Optional: remove if you don't want individual item animation
+      gsap.fromTo(
+        menuWrapper,
+        { height: 0 },
+        {
+          height: fullHeight,
+          duration: 0.4,
+          ease: "power2.out",
+          onStart: () => (menuWrapper.style.pointerEvents = "auto"),
+          onComplete: () => {
+            menuWrapper.style.height = "auto";
+          },
+        }
+      );
+
       gsap.fromTo(
         menuItems,
-        { y: 10 },
+        { y: 10, opacity: 0 },
         {
           y: 0,
+          opacity: 1,
           duration: 0.4,
           stagger: 0.1,
           ease: "power2.out",
@@ -34,21 +48,30 @@ export default function MenuAnimation() {
     };
 
     const closeMenu = () => {
-      menuToggle.textContent = "Menu";
+      menuLabel.classList.remove("hidden");
+      closeLabel.classList.add("hidden");
+
       menuToggle.setAttribute("aria-expanded", "false");
 
-      // Optional: remove if not animating individual items
-      gsap.to(menuItems, {
-        y: 10,
-        duration: 0.2,
-        stagger: 0.05,
-        ease: "power2.in",
-      });
+      menuWrapper.style.height = `${menuWrapper.scrollHeight}px`;
 
-      gsap.to(menuList, {
-        height: 0,
-        duration: 0.4,
-        onComplete: () => (menuList.style.pointerEvents = "none"),
+      requestAnimationFrame(() => {
+        gsap.to(menuWrapper, {
+          height: 0,
+          duration: 0.4,
+          ease: "power2.inOut",
+          onComplete: () => {
+            menuWrapper.style.pointerEvents = "none";
+          },
+        });
+
+        gsap.to(menuItems, {
+          y: 10,
+          opacity: 0,
+          duration: 0.2,
+          stagger: 0.05,
+          ease: "power2.in",
+        });
       });
     };
 
@@ -61,7 +84,7 @@ export default function MenuAnimation() {
     document.addEventListener("click", (e) => {
       if (
         isOpen &&
-        !menuList.contains(e.target) &&
+        !menuWrapper.contains(e.target) &&
         !menuToggle.contains(e.target)
       ) {
         closeMenu();

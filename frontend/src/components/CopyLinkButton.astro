@@ -14,14 +14,16 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
     readonly
     value={url}
     aria-label="Blog post URL"
+    tabindex="-1"
   />
   <button
     id="copy-btn"
     class="copy-link__btn"
     aria-label="Copy blog post link"
     type="button"
+    tabindex="0"
   >
-    <Icon name="link" title="Copy blog post link" />
+    <Icon name="link" title="Copy blog post link" class="link-icon" />
   </button>
 </div>
 
@@ -44,7 +46,9 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
         btn.disabled = false; // re-enable button after 2s
       }, 2000);
     } catch (err) {
-      console.error("Copy failed", err);
+      if (import.meta.env.DEV) {
+        console.error("Copy failed", err);
+      }
       const originalValue = input.value;
       input.value = "Failed to copy";
       btn.disabled = true;
@@ -68,14 +72,22 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
     border: var(--border) var(--clr-secondary);
     border-radius: var(--border-radius);
     max-width: 480px;
-    overflow: hidden; /* clip children to container border-radius */
+  }
+
+  .link-icon {
+    color: var(--clr-secondary);
+  }
+
+  .link-icon:hover {
+    color: var(--clr-secondary);
+    transform: scale(1.1);
+    transition: all var(--transition-duration);
   }
 
   .copy-link__input {
     flex-grow: 1;
     padding: var(--spacing-xxs);
     border: none;
-    outline: none;
     background: transparent;
     user-select: all;
     border-top-left-radius: var(--border-radius);
@@ -83,21 +95,31 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
   }
 
   .copy-link__btn {
-    border: none;
     border-top-right-radius: var(--border-radius);
     padding: var(--spacing-xxxs);
     border-bottom-right-radius: var(--border-radius);
-    cursor: pointer;
+
     /* Optional: add a subtle left border effect */
     box-shadow: inset 1px 0 0 0 var(--clr-secondary);
+  }
+
+  /* Ensure the button doesn't get focus */
+  /* For the input field, when focused */
+  .copy-link__btn:focus-visible {
+    box-shadow: var(--focus-shadow) var(--clr-secondary);
+    outline-offset: -1px;
+  }
+
+  /* Optional visual enhancement */
+  .copy-link__btn:hover .link-icon,
+  .copy-link__btn:focus-visible .link-icon {
+    color: var(--clr-primary);
+    transform: scale(1.1);
+    transition: all var(--transition-duration);
   }
 
   .copy-link__btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-  }
-
-  .copy-link__btn:hover {
-    color: #004a99;
   }
 </style>

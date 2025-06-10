@@ -1,0 +1,36 @@
+---
+// TheSearch.astro
+
+import Icon from "./Icon.astro";
+const { class: className, ...rest } = Astro.props;
+---
+
+<a
+  href="/search"
+  class="search-button"
+  class={className}
+  {...rest}
+  aria-label="Search the blog"
+>
+  <span>Search our Blog</span>
+
+  <Icon name="search" title="Search" size={40} />
+</a>
+
+<style>
+  .search-button {
+    padding: var(--spacing-xxs) var(--spacing-sm);
+    background-color: var(--clr-neutral-light);
+    border-radius: var(--border-radius);
+  }
+
+  .search-button:hover {
+    color: var(--clr-secondary);
+    transition: var(--transition-duration);
+  }
+
+  .search-button span {
+    font-size: var(--fs-fluid-h4);
+    font-weight: var(--fw-bold);
+  }
+</style>

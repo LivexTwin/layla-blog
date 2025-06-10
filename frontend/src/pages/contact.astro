@@ -1,0 +1,108 @@
+---
+// ./contact.astro
+import Layout from "../layouts/Layout.astro";
+import { SEO } from "astro-seo";
+
+const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
+
+const seo = {
+  title: "Contact - Healing with Layla",
+  description:
+    "Have a question, comment, or reflection? Get in touch with Layla directly using the contact form.",
+  canonical: `${SITE_URL}/contact`,
+  openGraph: {
+    basic: {
+      title: "Contact - Healing with Layla",
+      type: "website", // required
+      image: `${SITE_URL}/images/og-default.jpg`, // <-- add a valid image URL here
+      url: `${SITE_URL}/contact`,
+    },
+  },
+  twitter: {
+    cardType: "summary",
+    site: "@yourtwitterhandle",
+  },
+};
+---
+
+<SEO {...seo} />
+
+<Layout>
+  <section class="contact wrapper">
+    <div class="contact__container">
+      <h1>Contact</h1>
+      <p>
+        Have a question, comment, or reflection? Use the form below to get in
+        touch. Messages go directly to Layla’s inbox.
+      </p>
+
+      <form
+        name="contact"
+        method="POST"
+        action="/success"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="contact-form"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <input type="text" name="bot-field" style="display: none;" />
+
+        <label>
+          Name
+          <input type="text" name="name" required />
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" required />
+        </label>
+
+        <label>
+          Message
+          <textarea name="message" rows="6" required></textarea>
+        </label>
+
+        <button type="submit" class="btn btn-primary">Send Message</button>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact__container {
+    padding-top: var(--spacing-xxl);
+    padding-bottom: var(--spacing-xl);
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .contact h1 {
+    font-size: var(--fs-fluid-h1);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .contact p {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .contact-form label {
+    display: block;
+    margin-bottom: var(--spacing-md);
+    font-weight: var(--fw-bold);
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: var(--spacing-xs);
+    border: var(--border) var(--clr-secondary);
+    border-radius: var(--border-radius);
+    margin-top: var(--spacing-xs);
+    font-size: var(--fs-sm);
+    font-family: inherit;
+  }
+
+  .contact-form button {
+    margin-top: var(--spacing-md);
+  }
+</style>

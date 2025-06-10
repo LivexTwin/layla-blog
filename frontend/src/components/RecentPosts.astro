@@ -3,6 +3,7 @@ import { sanityClient } from "sanity:client";
 import { postsQuery } from "../sanity/lib/queries";
 import PostCard from "./PostCard.astro";
 import PostCta from "./PostCta.astro";
+import PostListGrid from "./PostListGrid.astro";
 
 let recentPosts = [];
 let errorMessage = ""; // Store the error message
@@ -12,39 +13,43 @@ try {
   recentPosts = posts.slice(0, 3); // Limit to 3 posts
 } catch (error) {
   errorMessage = "Sorry, we couldn't load the recent posts at the moment.";
-  console.error("Error fetching recent posts:", error);
+  if (import.meta.env.DEV) {
+    console.error("Error fetching recent posts:", error);
+  }
 }
 ---
 
-<section class="recent-posts wrapper">
-  <h2>Recent Posts</h2>
-  {
-    errorMessage ? (
-      <p>{errorMessage}</p> // Display error message
-    ) : (
-      <ul class="recent-posts__list">
-        {recentPosts.length ? (
-          recentPosts.map((post) => (
+<section class="recent-posts">
+  <div class="recent-posts__inner wrapper">
+    <h2>Recent Posts</h2>
+    {
+      recentPosts.length > 0 ? (
+        <PostListGrid>
+          {recentPosts.map((post, index) => (
             <li>
-              <PostCard post={post} />
+              <PostCard post={post} loading={index === 0 ? "eager" : "lazy"} />
             </li>
-          ))
-        ) : (
-          <li>No posts available.</li>
-        )}
-      </ul>
-    )
-  }
-  <div class="recent-posts__cta">
-    <p>Discover the stillness inside</p>
-    <PostCta />
+          ))}
+        </PostListGrid>
+      ) : (
+        <p>No posts available.</p>
+      )
+    }
+    <div class="recent-posts__cta">
+      <p>Discover the stillness inside</p>
+      <!-- Assume PostCta is another component -->
+      <PostCta />
+    </div>
   </div>
 </section>
 
 <style>
   .recent-posts {
-    margin-top: var(--spacing-xl);
-    margin-bottom: var(--spacing-xxl);
+    background-color: var(--clr-neutral-light);
+  }
+
+  .recent-posts__inner {
+    padding-block: var(--spacing-xl);
   }
 
   .recent-posts h2 {

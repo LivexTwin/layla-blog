@@ -47,6 +47,7 @@ svg {
   display: block;
   max-width: 100%;
   height: auto;
+  user-select: none;
 }
 
 h1,
@@ -59,6 +60,41 @@ h6 {
   text-wrap: balance;
   font-size: initial;
   line-height: var(--lh-tight);
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  display: inline-block; /* enables padding, margin, etc. */
+}
+
+a::after,
+a::before {
+  text-decoration: none;
+}
+
+/* Global focus styles */
+input:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: none; /* Remove default outline */
+  border-radius: var(--border-radius);
+  box-shadow: var(--focus-shadow) var(--clr-secondary); /* Optional: glow effect for better visibility */
+}
+::selection {
+  background-color: var(--clr-accent-3); /* #dcd4e8 */
+  color: var(--clr-neutral-dark); /* #141414 */
+}
+
+::-moz-selection {
+  background-color: var(--clr-accent-3); /* #dcd4e8 */
+  color: var(--clr-neutral-dark); /* #141414 */
 }
 
 /* Typography: Headings (Sanity blog) */
@@ -97,6 +133,8 @@ h6 {
 
 .blog-post img {
   border-radius: var(--border-radius);
+  padding-block: var(--spacing-xl);
+  width: 100%;
 }
 
 .blog-post .quote {
@@ -139,7 +177,6 @@ h6 {
   content: "•"; /* custom bullet */
   position: absolute;
   left: 0;
-  color: var(--clr-primary);
 }
 
 .blog-post figcaption {
@@ -157,7 +194,6 @@ h6 {
   content: counter(healing) ".";
   position: absolute;
   left: 0;
-  color: var(--clr-primary);
   font-weight: bold;
 }
 
@@ -168,7 +204,8 @@ h6 {
   left: 10px; /* Positioning of the quote mark */
   width: 2.5rem; /* Adjust size of SVG */
   height: 2.5rem; /* Adjust size of SVG */
-  background: url("/quote-icon.svg") no-repeat center center;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20id%3D%22icon%22%20width%3D%2224%22%20height%3D%2224%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M7.42%2C12.05h-.02c-.47-.13-.8-.59-.8-1.12v-2.52c0-.65.47-1.16%2C1.06-1.16h2.86c.58%2C0%2C1.06.51%2C1.14%2C1.15l.03%2C2.56%22%20fill%3D%22none%22%20stroke%3D%22%230e4f47%22%20stroke-miterlimit%3D%2210%22%20stroke-width%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M11.69%2C10.9c.06.7.03%2C3.12-.45%2C4.7-.63%2C2.08-1.44%2C1.61-1.44%2C1.26-.1-.19.83-1.74.12-4.53-.05-.16-.17-.29-.33-.29h-2.19%22%20fill%3D%22none%22%20stroke%3D%22%230e4f47%22%20stroke-miterlimit%3D%2210%22%20stroke-width%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M14.16%2C12.05h-.02c-.47-.13-.8-.59-.8-1.12v-2.52c0-.65.47-1.16%2C1.06-1.16h2.86c.58%2C0%2C1.06.51%2C1.14%2C1.15l.03%2C2.56%22%20fill%3D%22none%22%20stroke%3D%22%230e4f47%22%20stroke-miterlimit%3D%2210%22%20stroke-width%3D%22.5%22%2F%3E%3Cpath%20d%3D%22M18.43%2C10.9c.06.7.03%2C3.12-.45%2C4.7-.63%2C2.08-1.44%2C1.61-1.44%2C1.26-.1-.19.83-1.74.12-4.53-.05-.16-.17-.29-.33-.29h-2.19%22%20fill%3D%22none%22%20stroke%3D%22%230e4f47%22%20stroke-miterlimit%3D%2210%22%20stroke-width%3D%22.5%22%2F%3E%3C%2Fsvg%3E")
+    no-repeat center center;
   background-size: contain; /* Make the background fit */
 }
 
@@ -179,7 +216,6 @@ h6 {
 }
 
 .blog-post__content > p:first-of-type::first-letter {
-  color: var(--clr-primary);
   float: left;
   font-family: "Playfair", serif;
   font-size: 72px;
@@ -200,23 +236,6 @@ b {
   font-weight: var(--fw-bold);
 }
 
-button {
-  all: unset;
-  cursor: pointer;
-}
-
-a,
-a:visited {
-  color: inherit;
-  text-decoration: none;
-  display: inline-block; /* enables padding, margin, etc. */
-}
-
-a::after,
-a::before {
-  text-decoration: none;
-}
-
 /* variables */
 :root {
   /* Primary Color Palette */
@@ -231,10 +250,12 @@ a::before {
   --clr-neutral-light: #f2f6f3;
   --clr-neutral-light-2: #f3f0ed;
   --clr-neutral-dark: #141414;
+  --clr-text-light: #666;
 
   /* Background and text colors */
   --background-color: var(--clr-neutral-light-2);
   --text-color: var(--clr-neutral-dark);
+  --text-color-light: var(--clr-text-light);
 
   /* font */
   --font-family: "sofia-pro", sans-serif;
@@ -248,15 +269,18 @@ a::before {
   --spacing-xs: 0.75rem; /* 12px */
   --spacing-sm: 1rem; /* 16px */
   --spacing-md: 1.5rem; /* 24px */
-  --spacing-lg: 2rem; /* 32px */
-  --spacing-xl: 3rem; /* 48px */
-  --spacing-xxl: 4rem; /* 64px */
+  /* --spacing-lg: 2rem; 32px */
+  --spacing-lg: clamp(2rem, 5vw, 3rem);
+  /* --spacing-xl: 3rem; 48px */
+  --spacing-xl: clamp(3rem, 5vw, 4rem); /* 40px to 48px */
+  --spacing-xxl: clamp(4rem, 10vw, 5rem); /* 56px to 64px */
+  /* --spacing-xxl: 4rem; 64px */
   --spacing-xxxl: 5rem; /* 80px */
 
   /* wrapper width */
   --min: 88%;
   --wrapper-width: min(var(--min), 72rem); /* max width of the wrapper */
-  --wrapper-blog: min(var(--min), 45rem);
+  --wrapper-blog: min(var(--min), 37.5rem);
 
   /* Font Sizes */
   --fs-xs: 0.875rem; /* 14px - small labels, meta info */
@@ -283,4 +307,8 @@ a::before {
   --border: 1px solid;
   --letter-spacing: 0.1em;
   --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05) /* blog component grid */;
+  --transition-duration: 0.3s ease-in-out;
+  --opacity: 0.3; /* Default opacity for focus states */
+
+  --focus-shadow: 0 0 0 clamp(1px, 0.3vw, 2px); /* min 1px, scales, max 2px */
 }
