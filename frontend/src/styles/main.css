@@ -116,7 +116,7 @@ footer {
 
 .site__header {
   padding-inline: var(--spacing-sm);
-  padding-block: var(--spacing-xxs);
+  padding-top: var(--spacing-xxs);
   position: sticky;
   top: 0;
   z-index: 20;

@@ -34,7 +34,9 @@ import Icon from "./Icon.astro";
 
   <div class="menu__wrapper" id="menu-wrapper">
     <ul class="menu__list" id="menu-list">
-      <li class="menu__item"><a href="/" class="menu__link">Home</a></li>
+      <li class="menu__item">
+        <a href="/" class="menu__link" data-astro-prefetch>Home</a>
+      </li>
 
       <li class="menu__item"><a href="/blog" class="menu__link">Blog</a></li>
       <li class="menu__item">
@@ -43,13 +45,13 @@ import Icon from "./Icon.astro";
     </ul>
   </div>
 </nav>
-<MenuAnimation client:load />
-
+<MenuAnimation client:media="(max-width: 480px)" />
 <style>
   .menu__toggle {
     color: var(--clr-primary);
     padding-block: var(--spacing-xxxs);
     padding-left: var(--spacing-xxs);
+    margin-bottom: var(--spacing-xs);
     border: var(--border) var(--clr-secondary);
     border-radius: var(--border-radius);
     background: transparent;
@@ -84,7 +86,7 @@ import Icon from "./Icon.astro";
   }
 
   .menu__list {
-    padding-top: var(--spacing-xxs);
+    padding-top: var(--spacing-sm);
     padding-bottom: var(--spacing-md);
     padding-left: var(--spacing-lg);
   }
@@ -113,7 +115,7 @@ import Icon from "./Icon.astro";
     }
 
     .menu__item {
-      margin-bottom: 0; /* reset margin for inline layout */
+      margin-bottom: 0;
     }
 
     .menu__item a:hover {

@@ -1,4 +1,5 @@
-import { sanityClient } from "sanity:client";
+import { sanityClient } from "@/sanity/lib/sanityClient";
+
 import {
   postsQuery,
   postsByCategoryQuery,

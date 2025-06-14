@@ -2,7 +2,6 @@
 // ./src/layouts/Layout.astro
 
 import { SEO } from "astro-seo";
-import { VisualEditing } from "@sanity/astro/visual-editing";
 import "../styles/style.css";
 import "../styles/main.css";
 import TheNavigation from "../components/TheNavigation.astro";
@@ -15,14 +14,11 @@ const {
   pageTitle = "Healing with Layla – Therapy Blog for Mind & Well-being",
   pageDescription = "Explore articles, tips, and insights about therapy, mental health, and emotional well-being.",
   canonicalPath = "/",
-  openGraphImage = "/default-og-image.jpg",
+  openGraphImage = "/imgs/default-og-image.png",
 } = Astro.props;
 
 const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
 const canonicalUrl = `${SITE_URL}${canonicalPath}`;
-
-const visualEditingEnabled =
-  import.meta.env.PUBLIC_SANITY_VISUAL_EDITING_ENABLED == "true";
 ---
 
 <!doctype html>
@@ -30,7 +26,17 @@ const visualEditingEnabled =
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" />
+    <link rel="preload" href="https://use.typekit.net/cte2xlh.css" as="style" />
+    <link
+      rel="stylesheet"
+      href="https://use.typekit.net/cte2xlh.css"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://use.typekit.net/cte2xlh.css" />
+    </noscript>
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <meta name="generator" content={Astro.generator} />
@@ -42,25 +48,26 @@ const visualEditingEnabled =
       openGraph={{
         basic: {
           title: pageTitle,
-          type: "website", // or "article" depending on your content type
-          image: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+          type: "website",
+          image: `${SITE_URL}${openGraphImage}`,
+
           url: canonicalUrl,
         },
         optional: {
-          description: pageDescription, // optional field
+          description: pageDescription,
         },
         image: {
-          url: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+          url: `${SITE_URL}${openGraphImage}`,
           width: 1200,
           height: 630,
-          alt: "Open Graph Image", // optional alt text for accessibility
+          alt: "Open Graph Image",
         },
       }}
       twitter={{
         card: "summary_large_image",
         title: pageTitle,
         description: pageDescription,
-        image: `https://via.placeholder.com/1200x630.png?text=Open+Graph+Image`,
+        image: `${SITE_URL}${openGraphImage}`,
       }}
     />
   </head>
@@ -87,7 +94,7 @@ const visualEditingEnabled =
       <main>
         <slot />
       </main>
-      <VisualEditing enabled={visualEditingEnabled} />
+
       <TheFooter />
     </div>
   </body>

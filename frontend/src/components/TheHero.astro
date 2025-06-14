@@ -89,7 +89,7 @@ import Logo from "../components/Logo.astro";
       bottom: 0;
       left: 0;
       background-image: url(/imgs/flower.png);
-      background-size: 20%;
+      background-size: clamp(20%, calc(30% - 20px), 25vw);
       background-position: left 10% center;
       background-repeat: no-repeat;
       opacity: 0.6; /* Lower this value for more transparency */

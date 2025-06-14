@@ -1,11 +1,12 @@
 {
-  "name": "",
+  "name": "frontend",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
+    "test": "cypress run",
     "astro": "astro"
   },
   "dependencies": {
@@ -13,22 +14,16 @@
     "@astrojs/react": "^4.2.3",
     "@astrojs/sitemap": "^3.4.1",
     "@portabletext/types": "^2.0.13",
-    "@sanity/astro": "^3.2.6",
     "@sanity/client": "^6.28.4",
     "@sanity/image-url": "^1.1.0",
-    "@sanity/vision": "^3.84.0",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.1",
     "astro": "^5.6.1",
     "astro-pagefind": "^1.8.3",
     "astro-portabletext": "^0.11.1",
     "astro-seo": "^0.8.4",
-    "gsap": "^3.13.0",
+    "motion": "^12.18.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-is": "^19.1.0",
-    "sanity": "^3.82.0",
-    "styled-components": "^6.1.17"
+    "react-is": "^19.1.0"
   },
   "devDependencies": {
     "cypress": "^14.2.1"

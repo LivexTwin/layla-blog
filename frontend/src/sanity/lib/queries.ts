@@ -12,14 +12,6 @@ mainImage {
   asset->{
     _id,
     url,
-    metadata {
-      dimensions {
-        width,
-        height,
-        aspectRatio
-      },
-
-    }
   },
   alt
 },
@@ -32,14 +24,6 @@ mainImage {
    "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180)
 `;
 
-// one post (for PostDetail)
-// export const postQuery = `
-//   *[_type == "post" && slug.current == $slug][0] {
-//     ${postPreviewFields},
-//     body
-//   }
-// `;
-
 // one post (for PostDetail) with image and figure
 export const postQuery = `
 *[_type == "post" && slug.current == $slug][0] {
@@ -49,28 +33,7 @@ export const postQuery = `
     title,
     slug
   },
-
-
-  body[] {
-    ...,
-    _type == "figure" => {
-      _type,
-      _key,
-      "src": image.asset->url,
-      "lqip": image.asset->metadata.lqip, 
-      "alt": coalesce(alt, caption), // 🟢 fallback logic
-      caption,
-      attribution,
-      attributionLink
-    },
-    markDefs[] {
-      ...,
-      _type == "internalLink" => {
-        'type': @->_type,
-        'slug': @->slug.current,
-      }
-    }
-  }
+  body[] 
 }
 `;
 
@@ -78,7 +41,7 @@ export const postQuery = `
 export const nextPostQuery = `
 *[_type == "post" && publishedAt > $publishedAt] | order(publishedAt asc)[0] {
   title,
-  slug
+  slug 
 }
 `;
 
@@ -131,15 +94,3 @@ export const relatedPostsQuery = `
     ${postPreviewFields}
   }
 `;
-
-// export const siteSettingsQuery = `
-//   *[_type == "siteSettings"][0] {
-//     title,
-//     description,
-//     logo,
-//     socialMedia {
-//       title,
-//       url
-//     }
-//   }
-// `;

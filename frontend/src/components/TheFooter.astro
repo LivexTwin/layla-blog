@@ -1,18 +1,15 @@
----
-import Icon from "./Icon.astro"; // Only keep if using for icons elsewhere
----
-
 <footer class="footer">
   <div class="footer__container">
-    <!-- Footer content: Sections for links, contact, etc. -->
     <div class="footer__sections">
       <div class="footer__section">
         <h2>Quick Links</h2>
         <ul>
-          <li><a href="/contact">Contact</a></li>
-          <li><a href="/">Home</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/search">Search Blog</a></li>
+          <li><a href="/contact" data-astro-prefetch="false">Contact</a></li>
+          <li><a href="/" data-astro-prefetch="false">Home</a></li>
+          <li>
+            <a href="/privacy" data-astro-prefetch="false">Privacy Policy</a>
+          </li>
+          <li><a href="/search" data-astro-prefetch="false">Search Blog</a></li>
         </ul>
       </div>
 
@@ -26,7 +23,6 @@ import Icon from "./Icon.astro"; // Only keep if using for icons elsewhere
       </div>
     </div>
 
-    <!-- Optional: Footer Bottom with copyright -->
     <div class="footer__bottom">
       <p>
         &copy; {new Date().getFullYear()} All Rights Reserved.
@@ -68,11 +64,11 @@ import Icon from "./Icon.astro"; // Only keep if using for icons elsewhere
     font-size: var(--fs-md);
     margin-bottom: var(--spacing-sm);
     font-weight: var(--fw-bold);
-    color: var(--clr-primary); /* Use primary color for headings */
+    color: var(--clr-primary);
   }
 
   .footer__section a {
-    color: var(--clr-primary); /* Links in the footer with primary color */
+    color: var(--clr-primary);
     text-decoration: none;
     transition: color var(--transition-duration);
   }
@@ -82,13 +78,13 @@ import Icon from "./Icon.astro"; // Only keep if using for icons elsewhere
   }
 
   .footer__section a:hover {
-    color: var(--clr-secondary); /* Accent color on hover */
+    color: var(--clr-secondary);
   }
 
   .footer__bottom {
     text-align: center;
     font-size: var(--fs-xs);
-    color: var(--clr-neutral-dark); /* Muted text for copyright */
+    color: var(--clr-neutral-dark);
   }
 
   /* Responsive: For larger screens (e.g., tablets, desktops), organize footer links in multiple columns */

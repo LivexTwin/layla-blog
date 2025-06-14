@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import gsap from "gsap";
+import { animate, stagger } from "motion";
 
 export default function MenuAnimation() {
   useEffect(() => {
@@ -20,30 +20,19 @@ export default function MenuAnimation() {
 
       const fullHeight = menuWrapper.scrollHeight;
 
-      gsap.fromTo(
+      animate(
         menuWrapper,
-        { height: 0 },
-        {
-          height: fullHeight,
-          duration: 0.4,
-          ease: "power2.out",
-          onStart: () => (menuWrapper.style.pointerEvents = "auto"),
-          onComplete: () => {
-            menuWrapper.style.height = "auto";
-          },
-        }
-      );
+        { height: fullHeight },
+        { duration: 0.4, easing: "ease-out" }
+      ).finished.then(() => {
+        menuWrapper.style.height = "auto";
+      });
+      menuWrapper.style.pointerEvents = "auto";
 
-      gsap.fromTo(
+      animate(
         menuItems,
-        { y: 10, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.4,
-          stagger: 0.1,
-          ease: "power2.out",
-        }
+        { opacity: 1, transform: "translateY(0px)" },
+        { duration: 0.4, delay: stagger(0.1), easing: "ease-out" }
       );
     };
 
@@ -56,30 +45,28 @@ export default function MenuAnimation() {
       menuWrapper.style.height = `${menuWrapper.scrollHeight}px`;
 
       requestAnimationFrame(() => {
-        gsap.to(menuWrapper, {
-          height: 0,
-          duration: 0.4,
-          ease: "power2.inOut",
-          onComplete: () => {
-            menuWrapper.style.pointerEvents = "none";
-          },
+        animate(
+          menuWrapper,
+          { height: 0 },
+          { duration: 0.4, easing: "ease-in-out" }
+        ).finished.then(() => {
+          menuWrapper.style.pointerEvents = "none";
         });
-
-        gsap.to(menuItems, {
-          y: 10,
-          opacity: 0,
-          duration: 0.2,
-          stagger: 0.05,
-          ease: "power2.in",
-        });
+        animate(
+          menuItems,
+          { opacity: 0, transform: "translateY(10px)" },
+          { duration: 0.2, delay: stagger(0.05), easing: "ease-in" }
+        );
       });
     };
 
-    menuToggle.addEventListener("click", (e) => {
+    const toggleMenu = (e) => {
       e.stopPropagation();
       isOpen ? closeMenu() : openMenu();
       isOpen = !isOpen;
-    });
+    };
+
+    menuToggle.addEventListener("click", toggleMenu);
 
     document.addEventListener("click", (e) => {
       if (
@@ -91,6 +78,12 @@ export default function MenuAnimation() {
         isOpen = false;
       }
     });
+
+    // Clean up listeners on unmount (good practice)
+    return () => {
+      menuToggle.removeEventListener("click", toggleMenu);
+      document.removeEventListener("click", closeMenu);
+    };
   }, []);
 
   return null;

@@ -10,12 +10,6 @@ const hasImage = post.mainImage && post.mainImage.asset;
 
 <article class="post-card" {...rest}>
   <a href={`/blog/${post.slug.current}`} class="post-card__link">
-    <!-- <SanityImage
-      class="post-card__image"
-      image={{ ...post.mainImage }}
-      maxWidth={600}
-    /> -->
-    <!-- todo: rmove import and delete has image logic later -->
     {
       hasImage ? (
         <SanityImage

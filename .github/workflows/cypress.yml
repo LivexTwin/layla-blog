@@ -1,0 +1,29 @@
+name: Cypress Tests
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SANITY_PROJECT_ID: aahhyxfc
+      PUBLIC_SANITY_DATASET: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Build and run Cypress tests
+        run: |
+          npm run build
+          npm run preview & # Serve Astro preview
+          npx wait-on http://localhost:4321 # Wait for Astro to be ready
+          npx cypress run
+        working-directory: frontend

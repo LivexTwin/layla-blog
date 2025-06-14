@@ -74,14 +74,14 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
     max-width: 480px;
   }
 
-  .link-icon {
-    color: var(--clr-secondary);
-  }
-
   .link-icon:hover {
     color: var(--clr-secondary);
     transform: scale(1.1);
     transition: all var(--transition-duration);
+  }
+
+  .link-icon {
+    color: var(--clr-primary);
   }
 
   .copy-link__input {
@@ -98,20 +98,16 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
     border-top-right-radius: var(--border-radius);
     padding: var(--spacing-xxxs);
     border-bottom-right-radius: var(--border-radius);
-
     /* Optional: add a subtle left border effect */
     box-shadow: inset 1px 0 0 0 var(--clr-secondary);
   }
 
-  /* Ensure the button doesn't get focus */
-  /* For the input field, when focused */
   .copy-link__btn:focus-visible {
     box-shadow: var(--focus-shadow) var(--clr-secondary);
     outline-offset: -1px;
   }
 
   /* Optional visual enhancement */
-  .copy-link__btn:hover .link-icon,
   .copy-link__btn:focus-visible .link-icon {
     color: var(--clr-primary);
     transform: scale(1.1);
