@@ -308,8 +308,8 @@ b {
   --border-radius: var(--spacing-xxxs);
   --border: 1px solid;
   --letter-spacing: 0.1em;
-  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05) --transition-duration: 0.3s
-    ease-in-out;
+  --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  --transition-duration: 0.3s ease-in-out;
   --opacity: 0.3;
   --focus-shadow: 0 0 0 clamp(1px, 0.3vw, 2px);
 }

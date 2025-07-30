@@ -16,7 +16,7 @@ import Icon from "./Icon.astro";
         name="menu"
         title="Open menu"
         color="var(--clr-primary)"
-        size={24}
+        size={26}
         class="menu__icon"
       />
     </span>
@@ -26,7 +26,7 @@ import Icon from "./Icon.astro";
         name="close"
         title="Close menu"
         color="var(--clr-primary)"
-        size={24}
+        size={26}
         class="menu__icon"
       />
     </span>
@@ -45,56 +45,80 @@ import Icon from "./Icon.astro";
     </ul>
   </div>
 </nav>
-<MenuAnimation client:media="(max-width: 480px)" />
+<!-- <MenuAnimation client:only /> -->
+<!-- only client: only wortks clien tmedia renders an error -->
+<MenuAnimation client:media="(max-width: 768px)" />
+
 <style>
+  .menu__wrapper {
+    position: absolute;
+    top: 3.5rem;
+    left: 1rem;
+    right: 1rem;
+    margin: 0 auto;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: var(--clr-neutral-light, #fff);
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-10px) scale(0.98);
+    transition:
+      max-height 0.4s ease,
+      opacity 0.4s ease,
+      transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .menu__wrapper.is-open {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
   .menu__toggle {
     color: var(--clr-primary);
-    padding-block: var(--spacing-xxxs);
-    padding-left: var(--spacing-xxs);
-    margin-bottom: var(--spacing-xs);
-    border: var(--border) var(--clr-secondary);
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--clr-secondary);
     border-radius: var(--border-radius);
     background: transparent;
     cursor: pointer;
+    position: relative;
   }
 
   .menu__label {
     display: inline-flex;
-    align-items: center;
+    font-weight: var(--fw-bold);
+    font-size: var(--fs-sm);
   }
 
-  /* Initially hidden state */
+  .menu__item {
+    font-weight: var(--fw-bold);
+    letter-spacing: var(--letter-spacing);
+  }
+
+  /* Hides inactive label */
   .hidden {
     display: none;
   }
 
-  .menu__icon {
-    margin-bottom: -2.5px; /* Adjust icon position */
-  }
-
-  .menu__wrapper {
-    overflow: hidden;
-    height: 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--clr-neutral-light);
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
-    box-shadow: var(--box-shadow);
-    z-index: 10;
-  }
-
   .menu__list {
-    padding-top: var(--spacing-sm);
-    padding-bottom: var(--spacing-md);
-    padding-left: var(--spacing-lg);
+    padding: var(--spacing-md);
+    list-style: none;
   }
 
-  .menu__link {
-    font-weight: var(--fw-bold);
+  .menu__item:not(:last-child) {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .menu__item a {
     color: var(--clr-primary);
-    letter-spacing: var(--letter-spacing);
+    text-decoration: none;
+    font-size: var(--fs-body-fluid);
+  }
+
+  .menu__item a:hover {
+    color: var(--clr-secondary);
   }
 
   /* mq responsive menu  */
@@ -102,28 +126,23 @@ import Icon from "./Icon.astro";
     .menu__toggle {
       display: none;
     }
-
     .menu__wrapper {
       all: unset; /* resets height, position, overflow, etc. */
     }
-
     .menu__list {
       display: flex;
       flex-direction: row;
       gap: var(--spacing-md);
       padding: 0;
     }
-
     .menu__item {
       margin-bottom: 0;
     }
-
     .menu__item a:hover {
       color: var(--clr-secondary);
       transition: all var(--transition-duration);
     }
   }
-
   @media (width < 768px) {
     .menu__item:not(:last-child) {
       margin-bottom: var(--spacing-lg);

@@ -20,7 +20,6 @@
     "astro-pagefind": "^1.8.3",
     "astro-portabletext": "^0.11.1",
     "astro-seo": "^0.8.4",
-    "motion": "^12.18.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-is": "^19.1.0"

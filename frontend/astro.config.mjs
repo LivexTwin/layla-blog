@@ -29,6 +29,8 @@ export default defineConfig({
       },
     },
   },
-
+  server: {
+    allowedHosts: ["some-mangos-sip.loca.lt"],
+  },
   site: "https://healingwithlayla.com",
 });

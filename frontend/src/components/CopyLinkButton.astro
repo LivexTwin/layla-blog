@@ -31,19 +31,19 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
   const btn = document.getElementById("copy-btn");
   const input = document.getElementById("copy-url-input");
 
-  btn.addEventListener("click", async () => {
-    if (btn.disabled) return; // prevent if disabled
+  const handleCopy = async () => {
+    if (btn.disabled) return;
 
     try {
       await navigator.clipboard.writeText(input.value);
 
       const originalValue = input.value;
       input.value = "Copied! ❤️";
-      btn.disabled = true; // disable button during message
+      btn.disabled = true;
 
       setTimeout(() => {
         input.value = originalValue;
-        btn.disabled = false; // re-enable button after 2s
+        btn.disabled = false;
       }, 2000);
     } catch (err) {
       if (import.meta.env.DEV) {
@@ -58,8 +58,24 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
         btn.disabled = false;
       }, 2000);
     }
+  };
+
+  // Handle click on button
+  btn.addEventListener("click", handleCopy);
+
+  // Select input and copy when clicked
+  input.addEventListener("click", () => {
+    input.select();
+    handleCopy();
   });
 </script>
+
+<style is:global>
+  .copy-link__input:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+</style>
 
 <style>
   .copy-link__label {
@@ -98,7 +114,6 @@ const url = `${Astro.site ?? "http://localhost:4321"}/blog/${slug}`;
     border-top-right-radius: var(--border-radius);
     padding: var(--spacing-xxxs);
     border-bottom-right-radius: var(--border-radius);
-    /* Optional: add a subtle left border effect */
     box-shadow: inset 1px 0 0 0 var(--clr-secondary);
   }
 
