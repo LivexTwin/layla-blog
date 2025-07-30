@@ -1,6 +1,5 @@
 ---
 //.src/components/BlogLayout.astro
-import Layout from "../layouts/Layout.astro";
 import CategoryFilterList from "./CategoryFilterList.astro";
 import PostCard from "./PostCard.astro";
 import Pagination from "./Pagination.astro";
@@ -17,54 +16,52 @@ const {
 } = Astro.props;
 ---
 
-<Layout>
-  <div class="blog">
-    <header class="blog__header">
-      <div class="blog__header-inner">
-        <h1 class="blog__title">Blog Posts</h1>
-        <p class="blog__subtitle">
-          Reflect on posts about <span class="blog__subtitle-span">healing</span
-          >, awareness, and self-connection.
-        </p>
-      </div>
-    </header>
-
-    <div class="blog__layout">
-      <section class="blog__main">
-        {
-          posts.map((post, index) => (
-            <PostCard
-              class="post-card"
-              post={post}
-              loading={index === 0 ? "eager" : "lazy"}
-            />
-          ))
-        }
-      </section>
-
-      <aside class="blog__aside">
-        <div class="category-filter">
-          <CategoryFilterList
-            categories={categories}
-            categorySlug={categorySlug}
-            heading="Filter by Category"
-            aria-label="Blog categories"
-          />
-        </div>
-        <div class="blog__search">
-          <TheSearch />
-        </div>
-      </aside>
+<div class="blog">
+  <header class="blog__header">
+    <div class="blog__header-inner">
+      <h1 class="blog__title">Blog Posts</h1>
+      <p class="blog__subtitle">
+        Reflect on posts about <span class="blog__subtitle-span">healing</span>,
+        awareness, and self-connection.
+      </p>
     </div>
+  </header>
 
-    <Pagination
-      prevUrl={prevUrl}
-      nextUrl={nextUrl}
-      currentPage={currentPage}
-      lastPage={lastPage}
-    />
+  <div class="blog__layout">
+    <section class="blog__main">
+      {
+        posts.map((post, index) => (
+          <PostCard
+            class="post-card"
+            post={post}
+            loading={index === 0 ? "eager" : "lazy"}
+          />
+        ))
+      }
+    </section>
+
+    <aside class="blog__aside">
+      <div class="category-filter">
+        <CategoryFilterList
+          categories={categories}
+          categorySlug={categorySlug}
+          heading="Filter by Category"
+          aria-label="Blog categories"
+        />
+      </div>
+      <div class="blog__search">
+        <TheSearch />
+      </div>
+    </aside>
   </div>
-</Layout>
+
+  <Pagination
+    prevUrl={prevUrl}
+    nextUrl={nextUrl}
+    currentPage={currentPage}
+    lastPage={lastPage}
+  />
+</div>
 
 <style>
   .blog {

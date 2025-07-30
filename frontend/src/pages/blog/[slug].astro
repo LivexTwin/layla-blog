@@ -1,6 +1,5 @@
 ---
 // ./src/pages/blog/[slug].astro
-import { SEO } from "astro-seo";
 
 import Layout from "@/layouts/Layout.astro";
 import PostDetail from "@/components/PostDetail.astro";
@@ -32,35 +31,16 @@ const relatedPosts = await getRelatedPosts(slug);
 // Use the environment variable for base site URL
 
 const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
-const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+const canonicalPath = `/blog/${slug}`;
+const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 ---
 
-<SEO
-  title={post.title}
-  description={post.description ?? post.excerpt}
-  canonical={canonicalUrl}
-  openGraph={{
-    basic: {
-      title: post.title,
-      type: "article",
-      image: post.mainImage?.asset?.url,
-      url: canonicalUrl,
-    },
-    optional: {
-      description: post.description,
-      siteName: "Your Site Name",
-      locale: "en_US",
-    },
-  }}
-  twitter={{
-    title: post.title,
-    description: post.description ?? post.excerpt,
-    image: post.mainImage?.asset?.url,
-    card: "summary_large_image",
-  }}
-/>
-
-<Layout>
+<Layout
+  pageTitle={post.title}
+  pageDescription={post.description ?? post.excerpt}
+  canonicalPath={canonicalPath}
+  openGraphImage={post.mainImage?.asset?.url ?? "/imgs/default-og-image.png"}
+>
   <div class="blog-post__container">
     <PostDetail post={post} relatedPosts={relatedPosts} />
     <RelatedPosts relatedPosts={relatedPosts} />

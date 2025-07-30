@@ -1,8 +1,8 @@
 [[redirects]]
-from = "/admin*"
-to = "/admin"
+from = "/admin/*"
+to = "/"
 status = 301
-force = true
+
 
 [build]
 command = "npm run build"

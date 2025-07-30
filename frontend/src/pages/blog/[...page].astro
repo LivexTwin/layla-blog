@@ -1,7 +1,6 @@
 ---
 // .src/pages/blog/[...page].astro
-import { SEO } from "astro-seo";
-
+import Layout from "@/layouts/Layout.astro";
 import BlogLayout from "@/components/BlogLayout.astro";
 
 import { getBlogIndexData } from "@/utils/getBlogIndexData";
@@ -25,30 +24,21 @@ const { categories } = await getBlogIndexData({});
 const seo = {
   title: "Blog - Healing with Layla",
   description: "Read the latest therapy tips and posts.",
-  canonical: `${SITE_URL}/blog`,
-  openGraph: {
-    basic: {
-      title: "Blog - Healing with Layla",
-      type: "website",
-      image: `${SITE_URL}/blog-og-image.jpg`,
-      url: `${SITE_URL}/blog`,
-    },
-  },
-  twitter: {
-    cardType: "summary_large_image",
-    site: "@yourtwitterhandle",
-  },
 };
 ---
 
-<SEO {...seo} />
-
-<BlogLayout
-  posts={page.data}
-  categories={categories}
-  categorySlug
-  prevUrl={page.url.prev}
-  nextUrl={page.url.next}
-  currentPage={page.currentPage}
-  lastPage={page.lastPage}
-/>
+<Layout
+  pageTitle={seo.title}
+  pageDescription={seo.description}
+  canonicalPath="/blog"
+>
+  <BlogLayout
+    posts={page.data}
+    categories={categories}
+    categorySlug
+    prevUrl={page.url.prev}
+    nextUrl={page.url.next}
+    currentPage={page.currentPage}
+    lastPage={page.lastPage}
+  />
+</Layout>

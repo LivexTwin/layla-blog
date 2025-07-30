@@ -50,12 +50,9 @@ const canonicalUrl = `${SITE_URL}${canonicalPath}`;
           title: pageTitle,
           type: "website",
           image: `${SITE_URL}${openGraphImage}`,
-
           url: canonicalUrl,
         },
-        optional: {
-          description: pageDescription,
-        },
+        optional: { description: pageDescription },
         image: {
           url: `${SITE_URL}${openGraphImage}`,
           width: 1200,

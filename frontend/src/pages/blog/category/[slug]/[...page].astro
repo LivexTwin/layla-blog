@@ -1,55 +1,54 @@
 ---
-import { SEO } from "astro-seo";
+// src/pages/blog/[slug]/[page].astro or similar
+import Layout from "@/layouts/Layout.astro";
 import BlogLayout from "@/components/BlogLayout.astro";
 
 import { getBlogIndexData } from "@/utils/getBlogIndexData";
 import { getCategorySlugs } from "@/utils/sanityQueries";
 
-// 1. Create static paths for each category with pagination
 export async function getStaticPaths({ paginate }) {
-  const slugs = await getCategorySlugs(); // [{ slug: 'dogs' }, { slug: 'cats' }, ...]
-
+  const slugs = await getCategorySlugs();
   const paths = [];
 
   for (const { slug } of slugs) {
     const { posts } = await getBlogIndexData({ slug });
     const paginated = paginate(posts, {
-      pageSize: 9, // 👈 change if you want more per page
-      params: { slug }, // 👈 pass slug into params
+      pageSize: 9,
+      params: { slug },
     });
-
     paths.push(...paginated);
   }
 
   return paths;
 }
 
-// 2. Grab slug from params, and page info from props
 const { slug } = Astro.params;
 const { page } = Astro.props;
 
 const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
-const canonicalUrl = `${SITE_URL}/blog/${slug}`;
+const canonicalPath = `/blog/${slug}`;
+const canonicalUrl = `${SITE_URL}${canonicalPath}`;
 
-// 3. Get category-specific data
-const { categories } = await getBlogIndexData({}); // all categories
+const { categories } = await getBlogIndexData({});
+const category = categories.find((cat) => cat.slug === slug);
 
-// Find the current category by slug
-const category = categories.find((cat: string) => cat.slug === slug);
-
-// Prepare SEO fields for category page
-const seoTitle = category?.title ?? "Blog Category";
-const seoDescription = category?.description ?? "Articles under this category";
+const pageTitle = category?.title ?? "Blog Category";
+const pageDescription = category?.description ?? "Articles under this category";
 ---
 
-<SEO title={seoTitle} description={seoDescription} canonical={canonicalUrl} />
-
-<BlogLayout
-  posts={page.data}
-  categories={categories}
-  categorySlug={slug}
-  prevUrl={page.url.prev}
-  nextUrl={page.url.next}
-  currentPage={page.currentPage}
-  lastPage={page.lastPage}
-/>
+<Layout
+  pageTitle={pageTitle}
+  pageDescription={pageDescription}
+  canonicalPath={canonicalPath}
+  openGraphImage="/imgs/default-og-image.png"
+>
+  <BlogLayout
+    posts={page.data}
+    categories={categories}
+    categorySlug={slug}
+    prevUrl={page.url.prev}
+    nextUrl={page.url.next}
+    currentPage={page.currentPage}
+    lastPage={page.lastPage}
+  />
+</Layout>

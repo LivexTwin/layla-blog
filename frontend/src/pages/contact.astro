@@ -1,33 +1,14 @@
 ---
 // ./contact.astro
 import Layout from "../layouts/Layout.astro";
-import { SEO } from "astro-seo";
-
-const SITE_URL = import.meta.env.PUBLIC_SITE_URL;
-
-const seo = {
-  title: "Contact - Healing with Layla",
-  description:
-    "Have a question, comment, or reflection? Get in touch with Layla directly using the contact form.",
-  canonical: `${SITE_URL}/contact`,
-  openGraph: {
-    basic: {
-      title: "Contact - Healing with Layla",
-      type: "website", // required
-      image: `${SITE_URL}/images/og-default.jpg`, // <-- add a valid image URL here
-      url: `${SITE_URL}/contact`,
-    },
-  },
-  twitter: {
-    cardType: "summary",
-    site: "@yourtwitterhandle",
-  },
-};
 ---
 
-<SEO {...seo} />
-
-<Layout>
+<Layout
+  pageTitle="Contact - Healing with Layla"
+  pageDescription="Have a question, comment, or reflection? Get in touch with Layla directly using the contact form."
+  canonicalPath="/contact"
+  openGraphImage="/images/og-default.jpg"
+>
   <section class="contact wrapper">
     <div class="contact__container">
       <h1>Contact</h1>

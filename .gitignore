@@ -1,0 +1,23 @@
+# Node modules for all packages
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Env files
+*.env
+.env.local
+.env.*.local
+.env.staging
+
+# Logs
+*.log
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# Specific folders per project
+frontend/public/pagefind/
+frontend/.netlify

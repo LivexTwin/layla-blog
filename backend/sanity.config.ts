@@ -17,7 +17,6 @@ if (!projectId || !dataset) {
 }
 
 export default defineConfig({
-  basePath: "/admin",
   projectId: projectId,
   dataset: dataset,
 
