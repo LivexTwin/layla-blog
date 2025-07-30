@@ -6,10 +6,7 @@ import { presentationTool } from "sanity/presentation";
 import { resolve } from "./sanity/lib/resolve";
 import { myStructure } from "./sanity/lib/structure";
 import { visionTool } from "@sanity/vision";
-const { theme } = (await import(
-  // @ts-expect-error -- TODO setup themer.d.ts to get correct typings
-  "https://themer.sanity.build/api/hues?preset=verdant&default=a8bdb3"
-)) as { theme: import("sanity").StudioTheme };
+import { theme } from "https://themer.sanity.build/api/hues?preset=verdant";
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID;
 const dataset = process.env.SANITY_STUDIO_DATASET;
@@ -26,7 +23,7 @@ export default defineConfig({
 
   name: "layla-blog",
   title: "Layla’s Blog Studio",
-  theme: theme,
+  theme,
   plugins: [
     structureTool({ structure: myStructure }),
     presentationTool({
